@@ -1,4 +1,4 @@
-package com.pfe.elearning.dto;
+package com.pfe.elearning.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class StudentResponse {
+public class CandidateResponse {
 
     private String firstname;
     private String lastname;
