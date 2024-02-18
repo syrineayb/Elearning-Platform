@@ -8,9 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@DiscriminatorValue("STUDENT")
-public class Student extends User {
+//@DiscriminatorValue("CANDIDATE")
+public class Candidate extends User {
     private int age;
 }

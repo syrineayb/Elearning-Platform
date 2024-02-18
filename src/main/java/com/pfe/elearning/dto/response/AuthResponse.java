@@ -1,4 +1,4 @@
-package com.pfe.elearning.dto;
+package com.pfe.elearning.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

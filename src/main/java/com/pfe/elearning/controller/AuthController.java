@@ -1,9 +1,9 @@
 package com.pfe.elearning.controller;
 
-import com.pfe.elearning.dto.AuthRequest;
-import com.pfe.elearning.dto.AuthResponse;
-import com.pfe.elearning.dto.RegisterRequest;
-import com.pfe.elearning.services.AuthService;
+import com.pfe.elearning.dto.request.AuthRequest;
+import com.pfe.elearning.dto.response.AuthResponse;
+import com.pfe.elearning.dto.request.RegisterRequest;
+import com.pfe.elearning.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

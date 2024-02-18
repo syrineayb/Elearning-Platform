@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,14 +39,18 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
+    @NotBlank
     @Column(nullable = false)
     private String firstname;
+    @NotBlank
     @Column(nullable = false)
     private String lastname;
+    @NotBlank
     private String password;
+    @NotBlank
     private String email;
     private boolean enabled;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Role> roles;
 
     @Override

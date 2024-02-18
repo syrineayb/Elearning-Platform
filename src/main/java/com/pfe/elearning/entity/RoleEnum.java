@@ -5,4 +5,5 @@ public enum RoleEnum {
     ROLE_CANDIDATE,
     ROLE_TEACHER,
     ROLE_TRAINER,
+    ROLE_NO_ROLE
 }
