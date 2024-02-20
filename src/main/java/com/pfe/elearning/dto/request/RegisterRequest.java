@@ -1,33 +1,25 @@
+// RegisterRequest.java
 package com.pfe.elearning.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+
+import java.util.List;
+
+@Data
 public class RegisterRequest {
-
-    @NotNull(message = "Firstname must not be null")
-    @NotBlank(message = "Firstname must not be null")
+    @NotBlank(message = "Firstname must not be blank")
     private String firstname;
-    @NotNull(message = "Lastname must not be null")
-    @NotBlank(message = "Lastname must not be null")
+    @NotBlank(message = "Lastname must not be blank")
     private String lastname;
-    @NotNull(message = "Email must not be null")
-    @NotEmpty(message = "Email must not be null")
-    @Email(message = "Email is not well formatter")
+    @NotBlank(message = "Email must not be blank")
+    @Email(message = "Email is not well formatted")
     private String email;
-    @NotNull(message = "Password must not be null")
-    @NotEmpty(message = "Password must not be null")
+    @NotBlank(message = "Password must not be blank")
     private String password;
+    @NotBlank(message = "Roles must not be Blank")
+    private String roleName;;
 }

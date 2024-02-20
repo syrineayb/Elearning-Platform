@@ -1,27 +1,25 @@
 package com.pfe.elearning.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 
-import java.util.List;
+
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@Builder
 @Entity
+@Table(name = "roles")
 public class Role {
+
     @Id
-    @GeneratedValue
-    private Integer id;
-    @Column(nullable = false,unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private RoleEnum name;
-    @ManyToMany(mappedBy = "roles")
-    private List<User> user;
+
 }

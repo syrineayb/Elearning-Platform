@@ -1,29 +1,14 @@
 package com.pfe.elearning.entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static jakarta.persistence.DiscriminatorType.STRING;
-import static jakarta.persistence.InheritanceType.SINGLE_TABLE;
+import java.util.*;
 
 
 @Getter
@@ -32,33 +17,39 @@ import static jakarta.persistence.InheritanceType.SINGLE_TABLE;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Inheritance(strategy = SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type", discriminatorType = STRING)
+@Table(name = "_user")
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank
+
     @Column(nullable = false)
     private String firstname;
-    @NotBlank
+
     @Column(nullable = false)
     private String lastname;
-    @NotBlank
-    private String password;
-    @NotBlank
+
+    @Email
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
     private boolean enabled;
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Role> roles;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles
-                .stream()
-                .map(r -> new SimpleGrantedAuthority(r.getName().name()))
-                .collect(Collectors.toList());
+        if (role != null) {
+            return Collections.singletonList(new SimpleGrantedAuthority(role.getName().name()));
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override

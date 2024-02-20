@@ -2,20 +2,19 @@ package com.pfe.elearning.entity;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import lombok.experimental.SuperBuilder;
-
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
-
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@DiscriminatorValue("CANDIDATE")
-public class Candidate extends User {
-    private int age;
+@DiscriminatorValue("ADMIN")
+public class Admin extends User {
+
+
 }

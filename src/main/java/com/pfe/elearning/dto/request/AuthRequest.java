@@ -1,25 +1,14 @@
+// AuthRequest.java
 package com.pfe.elearning.dto.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+
+@Data
 public class AuthRequest {
-    @NotNull(message = "Email must not be null")
-    @NotEmpty(message = "Email must not be null")
-    @Email(message = "Email is not well formatter")
+    @NotBlank(message = "Email must not be blank")
     private String email;
-    @NotNull(message = "Password must not be null")
-    @NotEmpty(message = "Password must not be null")
+    @NotBlank(message = "Password must not be blank")
     private String password;
 }

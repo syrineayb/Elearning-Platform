@@ -1,6 +1,7 @@
 package com.pfe.elearning.filter;
 
 import com.pfe.elearning.service.JwtService;
+import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,9 +26,9 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     @Override
     protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
+        HttpServletRequest request,
+        HttpServletResponse response,
+        FilterChain filterChain
     ) throws ServletException, IOException {
         // check the header (expl: ticket)
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
