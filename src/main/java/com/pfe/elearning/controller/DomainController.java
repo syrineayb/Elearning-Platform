@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DomainController {
     private final DomainService domainService;
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Long> save(
             @RequestBody @Valid DomainRequest domainRequest
     ) {
@@ -38,6 +39,7 @@ public class DomainController {
         return ResponseEntity.ok(domainService.findById(domainId));
     }
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','CANDIDATE')")
     public ResponseEntity<PageResponse<DomainResponse>> findAll(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "4", required = false) int size
