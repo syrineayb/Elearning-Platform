@@ -1,7 +1,6 @@
 package com.pfe.elearning.filter;
 
-import com.pfe.elearning.service.JwtService;
-import jakarta.annotation.Nonnull;
+import com.pfe.elearning.authentification.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
