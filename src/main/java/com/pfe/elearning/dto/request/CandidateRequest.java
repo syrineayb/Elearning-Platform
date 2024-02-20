@@ -14,7 +14,7 @@ import lombok.Setter;
 @Builder
 public class CandidateRequest {
 
-    private Integer id;
+    private Long id;
     @NotNull(message = "Firstname must not be null")
     private String firstname;
     @NotNull(message = "Lastname must not be null")

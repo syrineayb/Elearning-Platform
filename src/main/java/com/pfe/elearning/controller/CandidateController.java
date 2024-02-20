@@ -32,7 +32,7 @@ public class CandidateController {
 
     @PostMapping
     //@PreAuthorize("hasAuthority('W')")
-    public ResponseEntity<Integer> save(
+    public ResponseEntity<Long> save(
             @RequestBody @Valid CandidateRequest candidate
     ) {
         return ResponseEntity
@@ -42,7 +42,7 @@ public class CandidateController {
     @GetMapping("/{candidate-id}")
     @PreAuthorize("hasAnyRole('ADMIN','CANDIDATE')")// ROLE_{ROLENAME} is forbidden
     public ResponseEntity<CandidateResponse> findById(
-            @PathVariable("candidate-id") Integer candidateId
+            @PathVariable("candidate-id") Long candidateId
     ) {
         return ResponseEntity.ok(service.findById(candidateId));
     }

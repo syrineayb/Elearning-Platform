@@ -34,17 +34,14 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers(HttpMethod.POST, "/domains/**").hasRole("ADMIN") // Restrict access to /domains for ADMIN only
+                                .requestMatchers("/domains/**").authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
-
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

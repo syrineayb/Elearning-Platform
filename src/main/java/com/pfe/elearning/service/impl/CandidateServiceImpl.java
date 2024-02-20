@@ -19,14 +19,14 @@ public class CandidateServiceImpl implements CandidateService {
     private final CandidateMapper mapper;
 
     @Override
-    public Integer save(CandidateRequest studentRequest) {
+    public Long save(CandidateRequest studentRequest) {
         Candidate student = mapper.toCandidate(studentRequest);
         Candidate savedStudent = candidateRepository.save(student);
         return savedStudent.getId();
     }
 
     @Override
-    public CandidateResponse findById(Integer id) {
+    public CandidateResponse findById(Long id) {
         Candidate student = candidateRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Candidate not found with ID: " + id));
         return mapper.toCandidateDto(student);
@@ -41,7 +41,7 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         candidateRepository.deleteById(id);
     }
 }

@@ -16,8 +16,8 @@ import lombok.experimental.SuperBuilder;
 
 
 public class Trainer extends User {
-    private int Experience;
-    private String Bio;
+    private int experience;
+    private String bio;
     private String designation;
 
 

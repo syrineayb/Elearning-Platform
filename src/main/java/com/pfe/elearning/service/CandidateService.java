@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface CandidateService {
 
-    Integer save(CandidateRequest s);
-    CandidateResponse findById(Integer id);
+    Long save(CandidateRequest s);
+    CandidateResponse findById(Long id);
     List<CandidateResponse> findAll();
-    void deleteById(Integer id);
+    void deleteById(Long id);
 }
