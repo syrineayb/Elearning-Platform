@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class DomainMapper {
     public DomainResponse toDomainDto(Domain domain) {
         return DomainResponse.builder()
+                .id(domain.getId())
                 .title(domain.getTitle())
                 .build();
     }

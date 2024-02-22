@@ -30,6 +30,9 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/domains/**").hasRole("ADMIN") // Restrict access to POST /domains for ADMIN only
+                                .requestMatchers("/users/**").hasRole("ADMIN") // Allow access to /users for ADMIN only
+                                //  .anyRequest().authenticated()
                                 .requestMatchers(HttpMethod.GET, "/candidates/**").hasAnyRole("ADMIN", "CANDIDATE")
                                 .requestMatchers("/candidates/**").authenticated()
                 )

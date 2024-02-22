@@ -4,6 +4,6 @@ public enum RoleEnum {
     ROLE_USER,
     ROLE_ADMIN,
     ROLE_CANDIDATE,
-    ROLE_TRAINER,
+    ROLE_TEACHER,
     ROLE_NO_ROLE
 }
