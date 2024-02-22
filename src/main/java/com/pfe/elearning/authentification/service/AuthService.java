@@ -9,7 +9,6 @@ import com.pfe.elearning.user.entity.User;
 import com.pfe.elearning.user.repository.RoleRepository;
 import com.pfe.elearning.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,15 +27,22 @@ public class AuthService {
     private final JwtService jwtService;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
-
-
     public AuthResponse register(RegisterRequest request) {
         Role role = fetchRole(request.getRoleName());
         User user = createUserFromRequest(request, role);
         User savedUser = userRepository.save(user);
+
         String token = jwtService.generateToken(savedUser.getEmail(), Collections.singletonList(role.getName().name()));
-        return AuthResponse.builder().token(token).build();
+
+        // Create AuthResponse with token and createdAt
+        AuthResponse authResponse = AuthResponse.builder()
+                .token(token)
+                .createdAt(savedUser.getCreatedAt())
+                .build();
+
+        return authResponse;
     }
+
 
     private Role fetchRole(String roleName) {
         return roleRepository.findByName(RoleEnum.valueOf(roleName))
@@ -64,7 +70,19 @@ public class AuthService {
         );
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        // Retrieve user from the database to get createdAt
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
         String token = jwtService.generateToken(userDetails.getUsername(), Collections.emptyList());
-        return AuthResponse.builder().token(token).build();
+
+        // Create AuthResponse with token and createdAt
+        AuthResponse authResponse = AuthResponse.builder()
+                .token(token)
+                .createdAt(user.getCreatedAt())
+                .build();
+
+        return authResponse;
     }
+
 }

@@ -2,6 +2,7 @@
 package com.pfe.elearning.authentification.dto.request;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -21,5 +22,10 @@ public class RegisterRequest {
     @NotBlank(message = "Password must not be blank")
     private String password;
     @NotBlank(message = "Roles must not be Blank")
-    private String roleName;;
+    private String roleName;
+  /*  @Min(value=19)
+    private int age;
+*/
+
+
 }

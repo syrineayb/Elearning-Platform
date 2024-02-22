@@ -1,6 +1,4 @@
 package com.pfe.elearning.domain.dto.response;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -9,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class DomainResponse {
-    private Integer id;
+    private Long id;
     private String title;
 }
