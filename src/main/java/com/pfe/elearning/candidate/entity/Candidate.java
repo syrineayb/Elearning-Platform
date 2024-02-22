@@ -18,4 +18,5 @@ import lombok.Setter;
 @DiscriminatorValue("CANDIDATE")
 public class Candidate extends User {
     private int age;
+
 }

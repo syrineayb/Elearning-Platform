@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/domains/**").hasRole("ADMIN") // Restrict access to /domains for ADMIN only
-                                .requestMatchers("/domains/**").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/candidates/**").hasAnyRole("ADMIN", "CANDIDATE")
+                                .requestMatchers("/candidates/**").authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

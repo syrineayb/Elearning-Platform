@@ -9,6 +9,7 @@ import com.pfe.elearning.user.entity.User;
 import com.pfe.elearning.user.repository.RoleRepository;
 import com.pfe.elearning.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+
 
     public AuthResponse register(RegisterRequest request) {
         Role role = fetchRole(request.getRoleName());
