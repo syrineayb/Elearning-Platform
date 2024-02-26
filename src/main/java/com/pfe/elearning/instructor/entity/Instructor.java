@@ -1,4 +1,4 @@
-package com.pfe.elearning.admin.entity;
+package com.pfe.elearning.instructor.entity;
 
 import com.pfe.elearning.profile.entity.Profile;
 import com.pfe.elearning.user.entity.User;
@@ -10,14 +10,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@DiscriminatorValue("Admin")
-@Table(name = "admins")
-public class Admin extends User {
-    //private int xxx;
-
+@DiscriminatorValue("Instructor")
+@Table(name = "instructors")
+public class Instructor extends User {
+    
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -28,5 +28,4 @@ public class AuthController {
     public ResponseEntity<AuthResponse> authenticate(@RequestBody @Valid AuthRequest request) {
         return ResponseEntity.ok(authService.authenticate(request));
     }
-
 }

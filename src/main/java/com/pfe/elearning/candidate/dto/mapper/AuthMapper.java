@@ -4,7 +4,7 @@ import com.pfe.elearning.admin.entity.Admin;
 import com.pfe.elearning.authentification.dto.request.RegisterRequest;
 import com.pfe.elearning.authentification.dto.response.AuthResponse;
 import com.pfe.elearning.candidate.entity.Candidate;
-import com.pfe.elearning.trainer.entity.Trainer;
+import com.pfe.elearning.instructor.entity.Instructor;
 import com.pfe.elearning.user.entity.User;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +13,8 @@ public class AuthMapper {
 
     public Candidate toCandidate(RegisterRequest request) {
         Candidate candidate = new Candidate();
-        candidate.setFirstname(request.getFirstname());
-        candidate.setLastname(request.getLastname());
+        candidate.setFirstname(request.getFirstName());
+        candidate.setLastname(request.getLastName());
         candidate.setEmail(request.getEmail());
         // FIXME: Don't set the password directly here, handle password hashing properly
         candidate.setPassword(request.getPassword());
@@ -24,8 +24,8 @@ public class AuthMapper {
 
     public Admin toAdmin(RegisterRequest request) {
         Admin admin = new Admin();
-        admin.setFirstname(request.getFirstname());
-        admin.setLastname(request.getLastname());
+        admin.setFirstname(request.getFirstName());
+        admin.setLastname(request.getLastName());
         admin.setEmail(request.getEmail());
         // FIXME: Don't set the password directly here, handle password hashing properly
         admin.setPassword(request.getPassword());
@@ -35,10 +35,10 @@ public class AuthMapper {
 
 
 
-    public Trainer toTrainer(RegisterRequest request) {
-        Trainer trainer = new Trainer();
-        trainer.setFirstname(request.getFirstname());
-        trainer.setLastname(request.getLastname());
+    public Instructor toTrainer(RegisterRequest request) {
+        Instructor trainer = new Instructor();
+        trainer.setFirstname(request.getFirstName());
+        trainer.setLastname(request.getLastName());
         trainer.setEmail(request.getEmail());
         // FIXME: Don't set the password directly here, handle password hashing properly
         trainer.setPassword(request.getPassword());

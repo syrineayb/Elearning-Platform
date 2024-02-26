@@ -1,14 +1,18 @@
 // AuthResponse.java
 package com.pfe.elearning.authentification.dto.response;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class AuthResponse {
+   // private LocalDateTime createdAt;
     private String token;
-    private LocalDateTime createdAt;
+    private Long userId;
+    private String username;
 }

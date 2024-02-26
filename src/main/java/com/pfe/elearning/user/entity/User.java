@@ -1,7 +1,8 @@
 package com.pfe.elearning.user.entity;
 
-import com.pfe.elearning.common.BaseEntity;
+import com.pfe.elearning.profile.entity.Profile;
 import com.pfe.elearning.genre.entity.Genre;
+import com.pfe.elearning.role.entity.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,21 +14,33 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static jakarta.persistence.DiscriminatorType.STRING;
+import static jakarta.persistence.InheritanceType.SINGLE_TABLE;
 
 
 @Getter
 @Setter
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "user")
-/*@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
-*/
-public class User extends BaseEntity implements UserDetails  {
+@Table(name = "users")
+//@Inheritance(strategy = SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type", discriminatorType = STRING)
+//@Inheritance(strategy = InheritanceType.JOINED)
+//@JsonIgnoreProperties(value = {"createdAt"},allowGetters = true)
+
+public class User implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+   /* @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();*/
     @NotBlank
     @Column(nullable = false)
     @Size(min = 2,max =100)
@@ -38,7 +51,7 @@ public class User extends BaseEntity implements UserDetails  {
     @Size(min = 2,max =100)
     private String lastname;
 
-    @Email
+    @Email(message = "Email not valid")
     @NotBlank
     @Column(nullable = false, unique = true)
     private String email;
@@ -48,28 +61,33 @@ public class User extends BaseEntity implements UserDetails  {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    Genre genre;
+    private Genre genre;
+
+   /* @OneToOne
+    private Profile Profile;
+
+    */
+   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   private Profile profile;
+
+    // @NotBlank
+   // @Column(nullable = false)
+   // private String address,phoneNumber;
 
     private boolean enabled;
+    private boolean active;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id")
-    private Role role;
-    @Column(nullable = true)
-    //@Min(value=19)
-    int age;
+   // @ManyToMany(fetch = FetchType.EAGER)
+   @ManyToMany(fetch = FetchType.EAGER)
+   private List<Role> roles;
+
+    //@JoinColumn(name = "role_id")
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (role != null) {
-            return Collections.singletonList(new SimpleGrantedAuthority(role.getName().name()));
-        } else {
-            return Collections.emptyList();
-        }
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
+        return roles
+                .stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -92,8 +110,10 @@ public class User extends BaseEntity implements UserDetails  {
         return true;
     }
 
-    @Override
+      @Override
     public boolean isEnabled() {
         return enabled;
     }
+
+
 }

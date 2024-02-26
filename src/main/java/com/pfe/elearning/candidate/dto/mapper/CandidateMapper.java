@@ -13,7 +13,7 @@ public class CandidateMapper {
         return CandidateResponse.builder()
                 .firstname(candidate.getFirstname())
                 .lastname(candidate.getLastname())
-                .age(candidate.getAge())
+                //.age(candidate.getAge())
                 .build();
     }
 
@@ -22,7 +22,7 @@ public class CandidateMapper {
         candidate1.setId(candidate.getId());
         candidate1.setFirstname(candidate.getFirstname());
         candidate1.setLastname(candidate.getLastname());
-        candidate1.setAge(candidate.getAge());
+       // candidate1.setAge(candidate.getAge());
         return candidate1;
     }
 }

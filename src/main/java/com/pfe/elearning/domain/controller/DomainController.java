@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 @RestController
-@RequestMapping("/domains")
+@RequestMapping("/api/domains")
 @RequiredArgsConstructor
 public class DomainController {
     private final DomainService domainService;

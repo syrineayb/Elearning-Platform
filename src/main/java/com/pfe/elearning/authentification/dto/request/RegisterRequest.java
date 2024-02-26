@@ -1,10 +1,8 @@
 // RegisterRequest.java
 package com.pfe.elearning.authentification.dto.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.pfe.elearning.role.entity.Role;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 
@@ -12,18 +10,28 @@ import java.util.List;
 
 @Data
 public class RegisterRequest {
-    @NotBlank(message = "Firstname must not be blank")
-    private String firstname;
-    @NotBlank(message = "Lastname must not be blank")
-    private String lastname;
-    @NotBlank(message = "Email must not be blank")
-    @Email(message = "Email is not well formatted")
+    @NotNull(message = "First name is mandatory")
+    @NotBlank(message = "First name is mandatory")
+    private String firstName;
+    @NotNull(message = "Last name is mandatory")
+    @NotBlank(message = "Last name is mandatory")
+    private String lastName;
+    @NotNull(message = "Email name is mandatory")
+    @NotBlank(message = "Email name is mandatory")
+    @Email(message = "Email is not valid")
     private String email;
-    @NotBlank(message = "Password must not be blank")
+    @NotNull(message = "Email name is mandatory")
+    @NotBlank(message = "Email name is mandatory")
+    @Size(min = 4, max = 16, message = "Password should be between 4 and 16 chars")
     private String password;
-    @NotBlank(message = "Roles must not be Blank")
-    private String roleName;
-  /*  @Min(value=19)
+    @NotNull(message = "Roles must not be Blank")
+    private List<String> roleName;
+ /*
+   // private int age;
+
+    //  @NotBlank(message = "Address must not be blank")
+   // private String address;
+    @Min(value=19)
     private int age;
 */
 

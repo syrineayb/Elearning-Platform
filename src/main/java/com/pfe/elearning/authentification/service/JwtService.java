@@ -59,27 +59,21 @@ public class JwtService {
                 .getBody();
     }
 
-    public String generateToken(Map<String, Object> claims, UserDetails userDetails) {
-        final Date createdDate = new Date();
-        final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
 
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(createdDate)
-                .setExpiration(expirationDate)
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
-                .compact();
+    public String generateToken(UserDetails user) {
+        return generateToken(user, new HashMap<>());
     }
-    public String generateToken(String username, List<String> authorities) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("authorities", authorities);
 
-        UserDetails userDetails = new User(username, "", authorities.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList()));
-
-        return generateToken(claims, userDetails);
+    public String generateToken(UserDetails user, Map<String, Object> claims) {
+        return Jwts
+                .builder()
+                .setClaims(claims)
+                .setSubject(user.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact()
+                ;
     }
 
     private SecretKey getSigningKey() {
