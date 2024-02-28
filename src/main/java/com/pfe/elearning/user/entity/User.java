@@ -1,5 +1,7 @@
 package com.pfe.elearning.user.entity;
 
+import com.pfe.elearning.course.entity.Course;
+import com.pfe.elearning.topic.entity.Topic;
 import com.pfe.elearning.profile.entity.Profile;
 import com.pfe.elearning.genre.entity.Genre;
 import com.pfe.elearning.role.entity.Role;
@@ -9,10 +11,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,19 +32,25 @@ import static jakarta.persistence.InheritanceType.SINGLE_TABLE;
 @SuperBuilder
 @Entity
 @Table(name = "users")
-//@Inheritance(strategy = SINGLE_TABLE)
+@Inheritance(strategy = SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type", discriminatorType = STRING)
 //@Inheritance(strategy = InheritanceType.JOINED)
 //@JsonIgnoreProperties(value = {"createdAt"},allowGetters = true)
 
-public class User implements UserDetails {
+public class User implements UserDetails  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-   /* @Temporal(TemporalType.TIMESTAMP)
+
+
+
+  @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();*/
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+
+
     @NotBlank
     @Column(nullable = false)
     @Size(min = 2,max =100)
@@ -63,23 +73,43 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
-   /* @OneToOne
-    private Profile Profile;
 
-    */
-   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-   private Profile profile;
+  /*  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Profile profile;
 
+   */
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+  private Profile profile;
     // @NotBlank
-   // @Column(nullable = false)
-   // private String address,phoneNumber;
+    // @Column(nullable = false)
+    // private String address,phoneNumber;
 
     private boolean enabled;
     private boolean active;
 
-   // @ManyToMany(fetch = FetchType.EAGER)
-   @ManyToMany(fetch = FetchType.EAGER)
-   private List<Role> roles;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "user_roles",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "role_id"))
+  private List<Role> roles;
+
+
+    @ManyToMany
+    @JoinTable(name = "user_domains",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "domain_id"))
+    private List<Topic> domains;
+
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+          name = "enrollment",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "course_id"))
+  private List<Course> enrolledCourses;
+
+  @OneToMany(mappedBy = "instructor")
+  private List<Course> taughtCourses;
 
     //@JoinColumn(name = "role_id")
     @Override
@@ -110,10 +140,10 @@ public class User implements UserDetails {
         return true;
     }
 
-      @Override
+    @Override
     public boolean isEnabled() {
         return enabled;
-    }
+}
 
 
 }

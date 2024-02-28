@@ -81,6 +81,8 @@ public class AuthService {
             roleRepository.save(role);
         }
         Profile profile = new Profile();
+        profile.setUser(user);
+       // profile.setUser(user);
         profile.setFirstName(request.getFirstName());
         profile.setLastName(request.getLastName());
         profile.setEmail(request.getEmail());
@@ -109,6 +111,7 @@ public class AuthService {
         var jwtToken = jwtService.generateToken(savedUser, claims);
 
         return AuthResponse.builder()
+                .createdAt(savedUser.getCreatedAt())  // Set the createdAt field
                 .token(jwtToken)
                 .username(user.getFirstname() + " " + user.getLastname())
                 .userId(savedUser.getId())

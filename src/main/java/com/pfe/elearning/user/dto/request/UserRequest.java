@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class UserRequest {
@@ -23,4 +25,7 @@ public class UserRequest {
     @NotNull(message = "New password is mandatory")
     @NotBlank(message = "New password is mandatory")
     private String newPassword;
+
+   // private LocalDateTime createdAt;
+
 }

@@ -1,6 +1,6 @@
 package com.pfe.elearning.profile.service.impl;
 
-import com.pfe.elearning.profile.dto.Mapper.ProfileMapper;
+import com.pfe.elearning.profile.dto.mapper.ProfileMapper;
 import com.pfe.elearning.profile.dto.Request.ProfileRequest;
 import com.pfe.elearning.profile.dto.Response.ProfileResponse;
 import com.pfe.elearning.profile.entity.Profile;
@@ -46,6 +46,15 @@ public class ProfileServiceImpl implements ProfileService {
         existingProfile.setFirstName(profileRequest.getFirstName());
         existingProfile.setLastName(profileRequest.getLastName());
         existingProfile.setEmail(profileRequest.getEmail());
+        existingProfile.setImage(profileRequest.getImage());
+        existingProfile.setDescription(profileRequest.getDescription());
+        existingProfile.setCountry(profileRequest.getCountry());
+        existingProfile.setCurrentJob(profileRequest.getCurrentJob());
+        existingProfile.setExperience(profileRequest.getExperience());
+        existingProfile.setDateOfBirth(profileRequest.getDateOfBirth());
+        existingProfile.setCertificates(profileRequest.getCertificates());
+        existingProfile.setDegreeOfEducation(profileRequest.getDegreeOfEducation());
+        existingProfile.setPhoneNumber(profileRequest.getPhoneNumber());
         // Update other fields as needed
 
         // Save the updated profile entity back to the repository
@@ -54,29 +63,5 @@ public class ProfileServiceImpl implements ProfileService {
         // Map the updated profile entity to a ProfileResponse using the ProfileMapper
         return profileMapper.toProfileResponse(updatedProfile);
     }
-
- /*   @Override
-    public ProfileResponse updateCandidateProfile(Long candidateId, ProfileRequest profileRequest) {
-        Candidate candidate = candidateRepository.findById(candidateId)
-                .orElseThrow(() -> new IllegalArgumentException("Candidate not found with id: " + candidateId));
-
-        // Check if the old password matches the current password
-        if (passwordEncoder.matches(profileRequest.getOldPassword(), candidate.getPassword())) {
-            // Update the candidate's profile with the new password
-            candidate.setPassword(passwordEncoder.encode(profileRequest.getNewPassword()));
-            candidate.setFirstname(profileRequest.getFirstName());
-            candidate.setLastname(profileRequest.getLastName());
-            candidate.setEmail(profileRequest.getEmail());
-        //    candidate.setImgUrl(profileRequest.getImage());
-            // Update other profile information as needed
-            candidateRepository.save(candidate);
-            return CandidateMapper.toCandidateProfileResponse(candidate);
-        } else {
-            // If old password doesn't match, throw an exception or handle it accordingly
-            throw new IllegalArgumentException("Old password is incorrect");
-        }
-    }
-
-  */
 
 }

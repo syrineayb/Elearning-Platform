@@ -1,9 +1,7 @@
-package com.pfe.elearning.profile.dto.Mapper;
+package com.pfe.elearning.profile.dto.mapper;
 
 import com.pfe.elearning.profile.dto.Response.ProfileResponse;
-import com.pfe.elearning.candidate.entity.Candidate;
 import com.pfe.elearning.profile.entity.Profile;
-import com.pfe.elearning.user.dto.response.UserResponse;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,17 +23,7 @@ public class ProfileMapper {
                 .experience(profile.getExperience())
                 .degreeOfEducation(profile.getDegreeOfEducation())
                 .certificates(profile.getCertificates())
+                .phoneNumber(profile.getPhoneNumber())
                 .build();
     }
 }
-     //   response.setImage(candidate.getImgUrl());
-
-     /*   response.setDescription(candidate.getLastname());
-        response.setLastName(candidate.getLastname());
-        response.setLastName(candidate.getLastname());
-        response.setLastName(candidate.getLastname());
-    }
-
-
-}
-*/

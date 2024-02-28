@@ -23,7 +23,8 @@ public class Profile extends BaseEntity {
     private String firstName;
     private String lastName;
     private String email;
-    //private String password;
+    //private String oldPassword;
+    private String newPassword;
     private String image;
     private String description;
     private String phoneNumber;
@@ -37,9 +38,12 @@ public class Profile extends BaseEntity {
     private String degreeOfEducation;
     private String certificates;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+   /* @OneToOne
+    @JoinColumn(name = "user_id")database
     private User user;
 
-
+    */
+   @OneToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "user_id", nullable = false)
+   private User user;
 }

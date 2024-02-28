@@ -1,7 +1,9 @@
 // JwtService.java
 package com.pfe.elearning.authentification.service;
 
+import com.pfe.elearning.exception.JwtExpiredException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -12,12 +14,8 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
@@ -38,25 +36,37 @@ public class JwtService {
     }
 
     public boolean isTokenExpired(String token) {
-        final Date expirationDate = extractClaims(token, Claims::getExpiration);
-        return expirationDate.before(new Date());
+        try {
+            final Date expirationDate = extractClaims(token, Claims::getExpiration);
+            return expirationDate.before(new Date());
+        } catch (ExpiredJwtException ex) {
+            throw new JwtExpiredException("JWT has expired!!!");
+        }
     }
+
     public boolean isTokenNotExpired(String token) {
         return !isTokenExpired(token);
     }
-
 
     public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
+
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException ex) {
+            throw new JwtExpiredException("JWT has expired");
+        } catch (Exception ex) {
+            // Handle other exceptions if needed
+            throw new RuntimeException("Failed to parse JWT", ex);
+        }
     }
 
 
@@ -70,10 +80,9 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact()
-                ;
+                .compact();
     }
 
     private SecretKey getSigningKey() {
