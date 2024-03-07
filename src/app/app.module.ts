@@ -19,6 +19,7 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { CourseComponent } from './components/course/course.component';
 import { CourseCardComponent } from './components/course-card/course-card.component';
 import { ContactusComponent } from './components/contactus/contactus.component';
+import {RouterModule} from "@angular/router";
 
 export function createCustomTranslationLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'i18n/', '.json');
@@ -47,7 +48,9 @@ export function initializeApp(appInitializer: AppInitializerService) {
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+    RouterModule.forRoot([]) // Add RouterModule here
+
 
   ],
   providers: [

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { InstructorRoutingModule } from './instructor-routing.module';
 import {MainComponent} from "./pages/main/main.component";
 import {AppCommonModule} from "../app-common/app-common.module";
+import {RouterModule} from "@angular/router";
 
 
 
@@ -14,7 +15,8 @@ import {AppCommonModule} from "../app-common/app-common.module";
   imports: [
     CommonModule,
     InstructorRoutingModule,
-    AppCommonModule
+    AppCommonModule,
+    RouterModule
   ]
 })
 export class InstructorModule { }

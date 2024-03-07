@@ -4,8 +4,10 @@ import {JwtHelperService} from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class TokenService {
+  private jwtHelper: JwtHelperService;
 
   constructor() {
+    this.jwtHelper = new JwtHelperService();
   }
 
   set token(token: string) {
@@ -124,4 +126,24 @@ export class TokenService {
     const roles = this.userRoles;
     return roles.length === 0 || roles.includes('ROLE_NO_ROLE');
   }
+  getUserFirstName(): string | null {
+    const token = this.token;
+    if (!token) {
+      return null;
+    }
+
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    return decodedToken?.firstname || null;
+  }
+
+  getUserLastName(): string | null {
+    const token = this.token;
+    if (!token) {
+      return null;
+    }
+
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    return decodedToken?.lastname || null;
+  }
+
 }
