@@ -1,0 +1,41 @@
+<div class="signin-container">
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="assets/register/register.png" alt="Registration Image" class="img-fluid">
+      </div>
+      <div class="col-md-6">
+        <div class="group-7">
+          <h1 class="text-center">Welcome to <span style="color: blue">EDUCARE</span></h1>
+          <form class="container my-5 border border-primary" style="max-width: 50rem; border-radius: 10px; padding: 10px;" (ngSubmit)="login()">
+            <div class="mb-3">
+              <label for="formEmail" class="form-label">Email address</label>
+              <input [(ngModel)]="authRequest.email"     name="email" type="email" class="form-control" id="formEmail" placeholder="Enter Email" required>
+            </div>
+            <div class="mb-3 input-group">
+              <span class="input-group-text">
+                <i class="fas fa-lock"></i>
+              </span>
+              <input #passwordInput [(ngModel)]="authRequest.password"   name="password" type="password" class="form-control" id="password" placeholder="Password" required>
+              <button class="btn btn-outline-secondary" type="button" id="togglePassword"
+                        (click)="togglePasswordVisibility()">
+                <i class="fas fa-eye-slash"></i>
+              </button>
+            </div>
+            <div class="mb-3 form-check">
+              <input class="form-check-input" type="checkbox" id="rememberMe">
+              <label class="form-check-label" for="rememberMe">Remember me</label>
+            </div>
+            <div *ngIf="errorMsg.length" class="alert alert-danger" role="alert">
+              <p *ngFor="let msg of errorMsg">{{ msg }}</p>
+            </div>
+            <button type="submit" class="btn btn-primary container  text-center">Submit</button>
+          </form>
+          <div class="text-center">
+            <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

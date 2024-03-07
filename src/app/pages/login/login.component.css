@@ -1,0 +1,15 @@
+.signin-container {
+  background: linear-gradient(180deg, #7734E7 0%, rgba(119, 52, 231, 0.35) 100%);
+  margin-top: -50px;
+
+}
+.group-7 {
+
+  width: 118%;
+  height: 100%;
+  left: 531px;
+  top: 0px;
+  background: #FFFFFF;
+  border-radius: 50px 0px 0px 50px;
+  padding: 20px;
+}

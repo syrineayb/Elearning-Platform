@@ -1,0 +1,19 @@
+h2{
+  color:#7734E7;
+}
+p{
+  color:#696984;
+}
+.pp{
+  color:#7734E7;
+  font-family: 'Popins', sans-serif;
+}
+.custom-btn {
+  background-color: #7734E7;
+  border-color: #7734E7;
+}
+.custom-submit-btn {
+  color: white;
+  font-family: 'Popins', sans-serif;
+
+  font-size: 20px;}

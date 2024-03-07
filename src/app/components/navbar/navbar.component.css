@@ -1,0 +1,23 @@
+.navbar-brand.educare {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+    color: #7734E7;
+  }
+  
+  .navbar-nav .nav-link {
+    font-family: 'Acme', sans-serif;
+    font-size: 16px;
+    color: #979797;
+    /* Adjust the space between links here */
+
+  }  
+  .navbar-nav-scroll .nav-link,
+.navbar-nav-scroll .btn {
+    margin-left: 50px; /* Adjust the margin as per your preference */
+}
+.btn{  
+      margin-left: 10px; 
+}
+
+  
