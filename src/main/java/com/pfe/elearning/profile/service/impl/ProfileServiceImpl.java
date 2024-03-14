@@ -1,8 +1,8 @@
 package com.pfe.elearning.profile.service.impl;
 
-import com.pfe.elearning.profile.dto.mapper.ProfileMapper;
-import com.pfe.elearning.profile.dto.Request.ProfileRequest;
-import com.pfe.elearning.profile.dto.Response.ProfileResponse;
+import com.pfe.elearning.profile.dto.ProfileMapper;
+import com.pfe.elearning.profile.dto.ProfileRequest;
+import com.pfe.elearning.profile.dto.ProfileResponse;
 import com.pfe.elearning.profile.entity.Profile;
 import com.pfe.elearning.profile.repository.ProfileRepository;
 import com.pfe.elearning.profile.service.ProfileService;

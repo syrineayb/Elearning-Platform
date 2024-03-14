@@ -1,35 +1,33 @@
 package com.pfe.elearning.common;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
-@Getter
-@Setter
-@SuperBuilder
-@AllArgsConstructor
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue
-    protected Long id;
+    protected Integer id;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
+    @Column(name = "creationDate",nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(nullable = false)
+    @Column(name = "lastModifiedDate",nullable = false)
     private LocalDateTime updatedAt;
 
     @PrePersist

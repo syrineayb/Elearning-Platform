@@ -1,12 +1,13 @@
 package com.pfe.elearning.candidate.entity;
 
+import com.pfe.elearning.topic.entity.Topic;
 import com.pfe.elearning.user.entity.User;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,11 +17,15 @@ import lombok.Setter;
 public class Candidate extends User {
     //private int age;
    /* @ManyToMany
-    @JoinTable(name = "candidate_domains",
-            joinColumns = @JoinColumn(name = "candidate_id"),
-            inverseJoinColumns = @JoinColumn(name = "domain_id"))
-    private List<Domain> domains;
+    @JoinTable(
+            name = "candidates_topics",
+            joinColumns = {@JoinColumn(name = "candidate_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "topic_id", referencedColumnName = "id")}
+    )
+    // @JsonManagedReference
+    private List<Topic> topics;
+
+
 
     */
-
 }

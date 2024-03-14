@@ -1,10 +1,8 @@
 package com.pfe.elearning.user.entity;
 
-import com.pfe.elearning.course.entity.Course;
-import com.pfe.elearning.topic.entity.Topic;
 import com.pfe.elearning.profile.entity.Profile;
 import com.pfe.elearning.genre.entity.Genre;
-import com.pfe.elearning.role.entity.Role;
+import com.pfe.elearning.role.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -29,40 +27,39 @@ import static jakarta.persistence.InheritanceType.SINGLE_TABLE;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
+@Builder
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type", discriminatorType = STRING)
-//@Inheritance(strategy = InheritanceType.JOINED)
-//@JsonIgnoreProperties(value = {"createdAt"},allowGetters = true)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 
 public class User implements UserDetails  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-
+    private Integer id;
 
   @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+   /* @NotBlank
+    @Column(nullable = false)
+    @Size(min = 2,max =100)
 
-
+    */
+    private String username;
+/*
     @NotBlank
     @Column(nullable = false)
     @Size(min = 2,max =100)
-    private String firstname;
 
-    @NotBlank
-    @Column(nullable = false)
-    @Size(min = 2,max =100)
-    private String lastname;
-
+ */
+/*
     @Email(message = "Email not valid")
     @NotBlank
+
+ */
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -72,29 +69,17 @@ public class User implements UserDetails  {
 
     @Enumerated(EnumType.STRING)
     private Genre genre;
-
-
-  /*  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Profile profile;
-
-   */
+  private boolean enabled;
+  private boolean active;
   @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
   private Profile profile;
     // @NotBlank
     // @Column(nullable = false)
     // private String address,phoneNumber;
-
-    private boolean enabled;
-    private boolean active;
-
-
   @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "user_roles",
-          joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "role_id"))
   private List<Role> roles;
 
-
+/*
     @ManyToMany
     @JoinTable(name = "user_domains",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -110,6 +95,8 @@ public class User implements UserDetails  {
 
   @OneToMany(mappedBy = "instructor")
   private List<Course> taughtCourses;
+
+ */
 
     //@JoinColumn(name = "role_id")
     @Override

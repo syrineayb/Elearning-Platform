@@ -1,8 +1,7 @@
 package com.pfe.elearning.profile.controller;
 
-import com.pfe.elearning.profile.dto.Request.ProfileRequest;
-import com.pfe.elearning.profile.dto.Response.ProfileResponse;
-import com.pfe.elearning.profile.service.ProfileService;
+import com.pfe.elearning.profile.dto.ProfileRequest;
+import com.pfe.elearning.profile.dto.ProfileResponse;
 import com.pfe.elearning.profile.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,7 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping("/{userId}")
-   // @PreAuthorize("hasAnyRole('ADMIN','CANDIDATE')")
+   @PreAuthorize("hasAnyRole('ADMIN','CANDIDATE')")
     public ResponseEntity<ProfileResponse> getUserProfile(@PathVariable Long userId) {
         ProfileResponse response = profileService.getUserProfile(userId);
         return ResponseEntity.ok(response);
@@ -32,6 +31,7 @@ public class ProfileController {
     }
  */
 @PutMapping("/{userId}")
+@PreAuthorize("hasAnyRole('CANDIDATE','INSTRUCTOR')")
 public ResponseEntity<ProfileResponse> updateUserProfile(
         @PathVariable Long userId,
         @RequestBody ProfileRequest profileRequest) {

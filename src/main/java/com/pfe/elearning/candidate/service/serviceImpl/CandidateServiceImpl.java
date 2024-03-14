@@ -1,8 +1,8 @@
 package com.pfe.elearning.candidate.service.serviceImpl;
 
-import com.pfe.elearning.candidate.dto.mapper.CandidateMapper;
-import com.pfe.elearning.candidate.dto.request.CandidateRequest;
-import com.pfe.elearning.candidate.dto.response.CandidateResponse;
+import com.pfe.elearning.candidate.dto.CandidateMapper;
+import com.pfe.elearning.candidate.dto.CandidateRequest;
+import com.pfe.elearning.candidate.dto.CandidateResponse;
 import com.pfe.elearning.candidate.entity.Candidate;
 import com.pfe.elearning.candidate.repository.CandidateRepository;
 import com.pfe.elearning.candidate.service.CandidateService;
@@ -15,18 +15,18 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CandidateServiceImpl implements CandidateService {
-    private final CandidateRepository candidateRepository;
+   /* private final CandidateRepository candidateRepository;
     private final CandidateMapper mapper;
 
     @Override
-    public Long save(CandidateRequest studentRequest) {
+    public Integer save(CandidateRequest studentRequest) {
         Candidate student = mapper.toCandidate(studentRequest);
         Candidate savedStudent = candidateRepository.save(student);
         return savedStudent.getId();
     }
 
     @Override
-    public CandidateResponse findById(Long id) {
+    public CandidateResponse findById(Integer id) {
         Candidate student = candidateRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Candidate not found with ID: " + id));
         return mapper.toCandidateDto(student);
@@ -41,7 +41,9 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         candidateRepository.deleteById(id);
     }
+
+    */
 }

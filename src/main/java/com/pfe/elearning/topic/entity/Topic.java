@@ -1,5 +1,6 @@
 package com.pfe.elearning.topic.entity;
 
+import com.pfe.elearning.candidate.entity.Candidate;
 import com.pfe.elearning.common.BaseEntity;
 import com.pfe.elearning.course.entity.Course;
 import jakarta.persistence.*;
@@ -13,7 +14,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "topics")
 public class Topic extends BaseEntity {
 
@@ -25,5 +27,13 @@ public class Topic extends BaseEntity {
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     private List<Course> courses = new ArrayList<>();
 
+    public Topic(String title) {
+        this.title = title;
+    }
 
+ /*   @ManyToMany(mappedBy = "topics")
+    private List<Candidate> candidates;
+
+
+  */
 }

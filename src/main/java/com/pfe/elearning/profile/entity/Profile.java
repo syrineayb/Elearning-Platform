@@ -1,7 +1,5 @@
 package com.pfe.elearning.profile.entity;
 import com.pfe.elearning.common.BaseEntity;
-import com.pfe.elearning.role.entity.Role;
-import com.pfe.elearning.role.entity.RoleType;
 import com.pfe.elearning.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter

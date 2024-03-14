@@ -1,8 +1,8 @@
 package com.pfe.elearning.topic.controller;
 
 import com.pfe.elearning.common.PageResponse;
-import com.pfe.elearning.topic.dto.request.TopicRequest;
-import com.pfe.elearning.topic.dto.response.TopicResponse;
+import com.pfe.elearning.topic.dto.TopicRequest;
+import com.pfe.elearning.topic.dto.TopicResponse;
 import com.pfe.elearning.topic.service.TopicService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class TopicController {
 
     @GetMapping("/{topicId}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<TopicResponse> findById(@PathVariable("topicId") Long topicId) {
+    public ResponseEntity<TopicResponse> findById(@PathVariable("topicId") Integer topicId) {
         TopicResponse topicResponse = topicService.findById(topicId);
         if (topicResponse != null && topicResponse.getId() != null) {
             return ResponseEntity.ok(topicResponse);
@@ -44,7 +44,7 @@ public class TopicController {
     @PutMapping("/{topicId}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> update(
-            @PathVariable("topicId") Long topicId,
+            @PathVariable("topicId") Integer topicId,
             @RequestBody @Valid TopicRequest topicRequest) {
         try {
             TopicResponse updatedTopic = topicService.update(topicId, topicRequest);
@@ -57,7 +57,7 @@ public class TopicController {
 
     @DeleteMapping("/{topicId}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<String> deleteById(@PathVariable("topicId") Long topicId) {
+    public ResponseEntity<String> deleteById(@PathVariable("topicId") Integer topicId) {
         if (topicService.existsById(topicId)) {
             topicService.deleteById(topicId);
             return ResponseEntity.ok("Topic " + topicId + " successfully deleted.");
