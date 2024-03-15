@@ -1,0 +1,31 @@
+<!--
+<div class="lesson-card">
+    <div class="lesson-header">
+        <h3>{{ lesson.title }}</h3>
+    </div>
+    <div class="lesson-body">
+        <p>{{ lesson.description }}</p>
+        <p>Course: {{ lesson.course.title }}</p>
+        <div *ngIf="lesson.videos && lesson.videos.length > 0">
+            <h4>Videos:</h4>
+            <ul>
+                <li *ngFor="let video of lesson.videos">
+                    <a href="{{ video.url }}" target="_blank">{{ video.title }}</a>
+                </li>
+            </ul>
+        </div>
+        <div *ngIf="lesson.pdfs && lesson.pdfs.length > 0">
+            <h4>PDFs:</h4>
+            <ul>
+                <li *ngFor="let pdf of lesson.pdfs">
+                    <a href="{{ pdf.url }}" target="_blank">{{ pdf.title }}</a>
+                </li>
+            </ul>
+        </div>
+        <div *ngIf="lesson.quiz">
+            <h4>Quiz:</h4>
+            <a href="{{ lesson.quiz.url }}" target="_blank">{{ lesson.quiz.title }}</a>
+        </div>
+    </div>
+</div>
+-->

@@ -51,10 +51,22 @@ export class AuthenticationService {
     };
   }
   register(registerRequest: RegisterRequest) {
+    console.log(registerRequest.role);
     return this.http.post<any>(`${this.baseUrl}/api/auth/register`, registerRequest);
   }
+  isAuthenticated(): boolean {
+    // Check if the token exists in local storage or any other authentication logic
+    const token = localStorage.getItem('token');
+    return !!token; // Convert token to boolean (true if token exists, false otherwise)
+  }
+
+ /*
   getUsername(): Observable<string> {
     // Make an HTTP request to fetch the username
-    return this.http.get<string>(`${this.baseUrl}//api/user/username`);
+    return this.http.get<string>(`${this.baseUrl}/api/user/username`);
   }
+
+  */
+
+  //ng g s profiles/profiles
 }

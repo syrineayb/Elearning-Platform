@@ -7,7 +7,7 @@ import {NotfoundComponent} from "./pages/notfound/notfound.component";
 import {authGuard} from "./modules/app-common/services/guards/auth/auth.guard";
 import {teacherGuard} from "./modules/app-common/services/guards/teacher/teacher.guard";
 import {candidateGuard} from "./modules/app-common/services/guards/candidate/candidate.guard";
-import {ProfilsComponent} from "./modules/candidate/pages/profils/profils.component";
+//import {CandidateProfileComponent} from "./modules/candidate/pages/candidate-profile/candidate-profile.component";
 
 const routes: Routes = [
   { path:'', component: HomeComponent },
@@ -26,7 +26,13 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule),
   },
+/*
+  {
+    path: 'candidate-profile', component: CandidateProfileComponent
+  },
 
+
+ */
 
   { path: '**', component: NotfoundComponent }
 ];

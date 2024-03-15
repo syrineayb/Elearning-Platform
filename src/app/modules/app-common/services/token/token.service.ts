@@ -10,25 +10,25 @@ export class TokenService {
     this.jwtHelper = new JwtHelperService();
   }
 
-  set token(token: string) {
-    localStorage.setItem('token', token);
+  set accessToken(accessToken: string) {
+    localStorage.setItem('accessToken', accessToken);
   }
 
-  get token() {
-    return localStorage.getItem('token') as string;
+  get accessToken() {
+    return localStorage.getItem('accessToken') as string;
   }
 
   isTokenValid() {
-    const token = this.token;
-    if (!token) {
+    const accessToken = this.accessToken;
+    if (!accessToken) {
       return false;
     }
     // Decode the token
     const jwtHelper = new JwtHelperService();
-    const decodedToken = jwtHelper.decodeToken(token);
+    const decodedToken = jwtHelper.decodeToken(accessToken);
     console.log('Decoded Token:', decodedToken); // Log decoded token payload
     // Check expiry date
-    const isTokenExpired = jwtHelper.isTokenExpired(token);
+    const isTokenExpired = jwtHelper.isTokenExpired(accessToken);
     if (isTokenExpired) {
       localStorage.clear();
       return false;
@@ -42,12 +42,12 @@ export class TokenService {
   }
 
   get userRoles(): string[] {
-    const token = this.token;
-    if (token) {
+    const accessToken = this.accessToken;
+    if (accessToken) {
       const jwtHelper = new JwtHelperService();
-      const decodedToken = jwtHelper.decodeToken(token);
+      const decodedToken = jwtHelper.decodeToken(accessToken);
       console.log(decodedToken.authorities);
-      return decodedToken.authorities || []; // Assuming roles are stored under 'role' in the token
+      return decodedToken.role || []; // Assuming roles are stored under 'role' in the token
     }
     return [];
   }
@@ -57,14 +57,14 @@ export class TokenService {
   }
 
   isAdmin(): boolean {
-    const token = this.token;
-    if (!token) {
+    const accessToken = this.accessToken;
+    if (!accessToken) {
       return false;
     }
 
     // Decode the token
     const jwtHelper = new JwtHelperService();
-    const decodedToken = jwtHelper.decodeToken(token);
+    const decodedToken = jwtHelper.decodeToken(accessToken);
 
     // Check if "role" array exists in the decoded token payload
     if (decodedToken && decodedToken.role) {
@@ -76,14 +76,14 @@ export class TokenService {
   }
 
   isCandidate(): boolean {
-    const token = this.token;
-    if (!token) {
+    const accessToken = this.accessToken;
+    if (!accessToken) {
       return false;
     }
 
     // Decode the token
     const jwtHelper = new JwtHelperService();
-    const decodedToken = jwtHelper.decodeToken(token);
+    const decodedToken = jwtHelper.decodeToken(accessToken);
 
     // Check if "role" array exists in the decoded token payload
     if (decodedToken && decodedToken.role) {
@@ -96,14 +96,14 @@ export class TokenService {
 
 
   isInstructor(): boolean {
-    const token = this.token;
-    if (!token) {
+    const accessToken = this.accessToken;
+    if (!accessToken) {
       return false;
     }
 
     // Decode the token
     const jwtHelper = new JwtHelperService();
-    const decodedToken = jwtHelper.decodeToken(token);
+    const decodedToken = jwtHelper.decodeToken(accessToken);
 
     // Check if "role" array exists in the decoded token payload
     if (decodedToken && decodedToken.role) {
@@ -127,22 +127,22 @@ export class TokenService {
     return roles.length === 0 || roles.includes('ROLE_NO_ROLE');
   }
   getUserFirstName(): string | null {
-    const token = this.token;
-    if (!token) {
+    const accessToken = this.accessToken;
+    if (!accessToken) {
       return null;
     }
 
-    const decodedToken = this.jwtHelper.decodeToken(token);
+    const decodedToken = this.jwtHelper.decodeToken(accessToken);
     return decodedToken?.firstname || null;
   }
 
   getUserLastName(): string | null {
-    const token = this.token;
-    if (!token) {
+    const accessToken = this.accessToken;
+    if (!accessToken) {
       return null;
     }
 
-    const decodedToken = this.jwtHelper.decodeToken(token);
+    const decodedToken = this.jwtHelper.decodeToken(accessToken);
     return decodedToken?.lastname || null;
   }
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Elearning
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.12.
@@ -25,3 +26,10 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+=======
+# SkillBoost-Elearning-Platform
+A comprehensive e-learning platform designed to boost skills and empower learners through interactive courses, quizzes, and real-time collaboration.
+## Technologies Used
+- **Backend:** Developed with Spring Boot using a microservices architecture.
+- **Frontend:** Built with Angular for a dynamic and responsive user interface.
+>>>>>>> 4f71243b30e7cd5b22b6f618c57c1a552394814f

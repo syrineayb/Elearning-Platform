@@ -7,6 +7,5 @@ import {Component, Input} from '@angular/core';
 })
 export class CourseCardComponent {
   @Input() course: any;
-
   stars = Array(5).fill(0);
 }

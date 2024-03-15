@@ -15,12 +15,19 @@ import {AppInitializerService} from "./modules/app-common/services/app_init/app-
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import { CarouselComponent } from './components/carousel/carousel.component';
 import {CarouselModule} from "ngx-bootstrap/carousel";
-import { CategoriesComponent } from './components/categories/categories.component';
+import { CategoriesComponent } from './components/category/categories.component';
 import { CourseComponent } from './components/course/course.component';
 import { CourseCardComponent } from './components/course-card/course-card.component';
 import { ContactusComponent } from './components/contactus/contactus.component';
 import {RouterModule} from "@angular/router";
 import {AuthenticationService} from "./services/auth/authentication.service";
+import {CandidateModule} from "./modules/candidate/candidate.module";
+import {InstructorModule} from "./modules/instructor/instructor.module";
+import { CategoryCardComponent } from './components/category-card/category-card.component';
+import { LessonCardComponent } from './components/lesson-card/lesson-card.component';
+import { LessonComponent } from './components/lesson/lesson.component';
+import { ProfileNavbarComponent } from './components/profile-navbar/profile-navbar.component';
+import { ProfileSidebarComponent } from './components/profile-sidebar/profile-sidebar.component';
 
 export function createCustomTranslationLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'i18n/', '.json');
@@ -41,7 +48,12 @@ export function initializeApp(appInitializer: AppInitializerService) {
     CategoriesComponent,
     CourseComponent,
     CourseCardComponent,
-    ContactusComponent
+    ContactusComponent,
+    CategoryCardComponent,
+    LessonCardComponent,
+    LessonComponent,
+    //ProfileSidebarComponent,
+    // ProfileNavbarComponent
   ],
   imports: [
 
@@ -50,12 +62,17 @@ export function initializeApp(appInitializer: AppInitializerService) {
     HttpClientModule,
     FormsModule,
     CarouselModule.forRoot(),
-    RouterModule.forRoot([]) // Add RouterModule here
+    RouterModule.forRoot([]),
+    CandidateModule,
+    InstructorModule,
+
+    // Add RouterModule here
 
 
   ],
-  providers: [
-
+  providers: [],
+  exports: [
+   // ProfileSidebarComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -14,13 +14,13 @@
               <div class="col">
                 <label id="formFirstName" class="form-label">First Name</label>
                 <input type="text" class="form-control" id="firstName" name="firstName"
-                       placeholder="Enter First Name" [(ngModel)]="registerRequest.firstName" required>
+                       placeholder="Enter First Name" [(ngModel)]="registerRequest.firstname" required>
 
               </div>
               <div class="col">
                 <label id="formLastName" class="form-label">Last Name</label>
                 <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name"
-                       name="lastName" [(ngModel)]="registerRequest.lastName" required>
+                       name="lastName" [(ngModel)]="registerRequest.lastname" required>
 
               </div>
             </div>
@@ -52,15 +52,15 @@
             <div class="row mb-3">
               <div class="col">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="userType" id="student"
-                         value="candidate" [(ngModel)]="registerRequest.roleName">
-                  <label class="form-check-label" for="student">Student</label>
+                  <input class="form-check-input" type="radio" name="userType" id="candidate"
+                         value="candidate" [(ngModel)]="registerRequest.role">
+                  <label class="form-check-label" for="candidate">Candidate</label>
                 </div>
               </div>
               <div class="col">
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="userType" id="instructor"
-                         value="Instructor" [(ngModel)]="registerRequest.roleName">
+                         value="Instructor" [(ngModel)]="registerRequest.role">
                   <label class="form-check-label" for="instructor">Instructor</label>
                 </div>
               </div>
@@ -75,3 +75,4 @@
     </div>
   </div>
 </div>
+  ²

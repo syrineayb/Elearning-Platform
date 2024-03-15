@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {MainComponent} from "./pages/main/main.component";
-import {ProfilsComponent} from "./pages/profils/profils.component";
 import {authGuard} from "../app-common/services/guards/auth/auth.guard";
 import {candidateGuard} from "../app-common/services/guards/candidate/candidate.guard";
+import {CandidateProfileComponent} from "./pages/candidate-profile/candidate-profile.component"
 const routes: Routes = [
   {
     path: '',
@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       {
         path: 'profiles',
-        component: ProfilsComponent
+        component: CandidateProfileComponent
       }
     ]
   }

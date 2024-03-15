@@ -34,8 +34,8 @@ export class LoginComponent {
     this.authService.login(this.authRequest)
       .subscribe({
         next: (res) => {
-          this.tokenService.token = res.token as string;
-          localStorage.setItem('token', res.token || '');
+          this.tokenService.accessToken = res.access_token as string;
+          localStorage.setItem('accessToken', res.access_token || '');
           localStorage.setItem('username', res.username || '');
 
           this.redirectConnectedUser(); // Redirect after successful login

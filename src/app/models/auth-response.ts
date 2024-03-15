@@ -1,5 +1,5 @@
 export interface AuthResponse {
-  token?: string;
+  access_token?: string;
   username?:string;
 
 }
