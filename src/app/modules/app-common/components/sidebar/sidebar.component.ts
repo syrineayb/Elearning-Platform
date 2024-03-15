@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProfilService } from '../../services/profil/profil.service';
 import { ProfileResponse } from '../../../../models/profile-response';
 import {Router} from "@angular/router";
+import {AuthenticationService} from "../../../../services/auth/authentication.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +11,7 @@ import {Router} from "@angular/router";
 })
 export class SidebarComponent{
 
-  constructor(private router: Router) {} // Inject the Router
+  constructor(private router: Router,public authService: AuthenticationService) {} // Inject the Router
 
   // Method to navigate to the profile route
   goToProfile() {

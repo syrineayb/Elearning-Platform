@@ -35,6 +35,9 @@ export class LoginComponent {
       .subscribe({
         next: (res) => {
           this.tokenService.token = res.token as string;
+          localStorage.setItem('token', res.token || '');
+          localStorage.setItem('username', res.username || '');
+
           this.redirectConnectedUser(); // Redirect after successful login
           console.log(res);
         },
@@ -73,6 +76,9 @@ export class LoginComponent {
   }
 
 
+  logout() {
+    this.authService.logout();
+  }
 
 
   register() {

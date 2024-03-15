@@ -20,6 +20,7 @@ import { CourseComponent } from './components/course/course.component';
 import { CourseCardComponent } from './components/course-card/course-card.component';
 import { ContactusComponent } from './components/contactus/contactus.component';
 import {RouterModule} from "@angular/router";
+import {AuthenticationService} from "./services/auth/authentication.service";
 
 export function createCustomTranslationLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'i18n/', '.json');
