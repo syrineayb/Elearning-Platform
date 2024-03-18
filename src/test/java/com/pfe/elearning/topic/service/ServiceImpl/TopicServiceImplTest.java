@@ -36,6 +36,7 @@ class TopicServiceImplTest {
     @Mock
     private TopicMapper topicMapper;
 
+
     @Mock
     private ObjectsValidator<TopicRequest> validator;
 
@@ -77,7 +78,7 @@ class TopicServiceImplTest {
         assertNotNull(response.getUpdatedAt());
 
         // Verify interactions
-        verify(validator).validate(request);
+        verify(  validator).validate(request);
         verify(topicMapper).toTopic(request);
         verify(repository).save(topic);
         verify(topicMapper).toTopicResponse(createdTopic);
@@ -161,54 +162,55 @@ class TopicServiceImplTest {
         verify(repository,times(1)).findById(id);
 
     }
-        @Test
-        public void findByTitleContaining_ReturnsPageResponse() {
-            // Given
-            String keyword = "Web";
-            int page = 0;
-            int size = 10;
-            List<Topic> topics = Arrays.asList(
-                    new Topic("Web Development"),
-                    new Topic("Web Design"),
-                    new Topic("Design")
-            );
+    @Test
+    public void findByTitleContaining_ReturnsPageResponse() {
+        // Given
+        String keyword = "Web";
+        int page = 0;
+        int size = 10;
+        List<Topic> topics = Arrays.asList(
+                new Topic("Web Development"),
+                new Topic("Web Design"),
+                new Topic("Biology")
+        );
 
-            // Filter topics based on the keyword
-            List<Topic> filteredTopics = topics.stream()
-                    .filter(topic -> topic.getTitle().contains(keyword))
-                    .collect(Collectors.toList());
+// Filter topics based on the keyword
+        List<Topic> filteredTopics = topics.stream()
+                .filter(topic -> topic.getTitle().contains(keyword))
+                .collect(Collectors.toList());
 
-            Page<Topic> topicPage = new PageImpl<>(filteredTopics);
+        Page<Topic> topicPage = new PageImpl<>(filteredTopics);
 
-            // Mock the repository call
-            when(repository.findByTitleContaining(eq(keyword), any(Pageable.class)))
-                    .thenReturn(topicPage);
+// Mock the repository call
+        when(repository.findByTitleContaining(eq(keyword), any(Pageable.class)))
+                .thenReturn(topicPage);
 
-            // Mock the mapper call
-            when(topicMapper.toTopicResponse(any(Topic.class)))
-                    .thenAnswer(invocation -> {
-                        Topic topic = invocation.getArgument(0);
-                        return new TopicResponse(
-                                topic.getId(),
-                                topic.getTitle(),
-                                LocalDateTime.now(),
-                                LocalDateTime.now()
-                        );
-                    });
+// Mock the mapper call
+        when(topicMapper.toTopicResponse(any(Topic.class)))
+                .thenAnswer(invocation -> {
+                    Topic topic = invocation.getArgument(0);
+                    return new TopicResponse(
+                            topic.getId(),
+                            topic.getTitle(),
+                            LocalDateTime.now(),
+                            LocalDateTime.now()
+                    );
+                });
 
-            // When
-            PageResponse<TopicResponse> response = service.findByTitleContaining(keyword, page, size);
+// When
+        PageResponse<TopicResponse> response = service.findByTitleContaining(keyword, page, size);
 
-            // Then
-            assertNotNull(response);
-            assertEquals(1, response.getTotalPages());
-            assertEquals(filteredTopics.size(), response.getContent().size()); // Use filteredTopics.size() here
-             // Verify that findByTitleContaining method is called with the correct arguments
-            verify(repository,times(1)).findByTitleContaining(eq(keyword), any(Pageable.class));
-            // Verify that toTopicResponse method is called for each topic in the content
-            filteredTopics.forEach(topic -> verify(topicMapper).toTopicResponse(topic));
+// Then
+        assertNotNull(response);
+        assertEquals(1, response.getTotalPages());
+        assertEquals(filteredTopics.size(), response.getContent().size()); // Use filteredTopics.size() here
+        // Verify that findByTitleContaining method is called with the correct arguments
+        verify(repository).findByTitleContaining(eq(keyword), any(Pageable.class));
 
-        }
+        // Verify that toTopicResponse method is called for each topic in the content
+        verify(topicMapper, times(filteredTopics.size())).toTopicResponse(any(Topic.class));
+    }
+
     @Test
     public void deleteById_DeletesTopicSuccessfully() {
         // Given

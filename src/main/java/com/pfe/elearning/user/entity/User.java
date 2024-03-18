@@ -48,8 +48,9 @@ public class User implements UserDetails  {
     @Size(min = 2,max =100)
 
     */
-    private String username;
-/*
+   private String firstname;
+    private String lastname;
+    /*
     @NotBlank
     @Column(nullable = false)
     @Size(min = 2,max =100)
@@ -78,6 +79,10 @@ public class User implements UserDetails  {
     // private String address,phoneNumber;
   @ManyToMany(fetch = FetchType.EAGER)
   private List<Role> roles;
+  public String getName() {
+      return firstname+" "+lastname;
+  }
+
 
 /*
     @ManyToMany

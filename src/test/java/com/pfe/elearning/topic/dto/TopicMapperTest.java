@@ -17,7 +17,7 @@ class TopicMapperTest {
     }
 
     @Test
-    void shouldMapTopicRequestToTopic() {
+    void mapTopicRequestToTopic_Success() {
         // Arrange
         TopicRequest request = new TopicRequest("Web development");
 
@@ -30,14 +30,14 @@ class TopicMapperTest {
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenTopicRequestIsNull() {
+    void mapTopicRequestToTopic_NullRequest_ShouldThrowException() {
         // Act & Assert
         NullPointerException exception = assertThrows(NullPointerException.class, () -> mapper.toTopic(null));
         assertEquals("The topic request should not be null", exception.getMessage());
     }
 
     @Test
-    void shouldMapTopicToTopicResponse() {
+    void mapTopicToTopicResponse_Success() {
         // Arrange
         Topic topic = new Topic();
         topic.setId(1);
@@ -57,4 +57,6 @@ class TopicMapperTest {
         assertEquals(topic.getCreatedAt(), topicResponse.getCreatedAt());
         assertEquals(topic.getUpdatedAt(), topicResponse.getUpdatedAt());
     }
+
+
 }

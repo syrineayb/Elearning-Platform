@@ -9,4 +9,6 @@ public class LessonRequest {
     @NotBlank(message = "Description cannot be blank")
     private String description;
     private Integer courseId;
+    private String videoUrl;
+    private String documentId;
 }

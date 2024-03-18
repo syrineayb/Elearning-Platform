@@ -47,13 +47,15 @@ public class AuthenticationService {
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         validator.validate(request);
+
         RoleType requestedRole = request.getRole();
         Role userRole = roleRepository.findByName(requestedRole.name())
                 .orElseGet(() -> roleRepository.save(Role.builder().name(requestedRole.name()).build()));
 
         User user = User.builder()
                 //.firstname(request.getFirstName())
-                .username(request.getLastName())
+                .firstname(request.getFirstName())
+                .lastname(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .enabled(true)
@@ -91,6 +93,7 @@ public class AuthenticationService {
                 .userId(user.getId())
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .createdAt(user.getCreatedAt())
                 .build();
     }
     private void saveUserToken(User user, String jwtToken) {

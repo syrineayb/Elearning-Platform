@@ -12,8 +12,8 @@ public class LessonMapper {
                 .title(lesson.getTitle())
                 .description(lesson.getDescription())
                 .createdAt(lesson.getCreatedAt())
-                .CourseTitle(lesson.getCourse().getTitle())
-               // .cours(lesson.getTopic().getTitle())
+                .courseTitle(lesson.getCourse().getTitle())
+              //  .publisherName(lesson.getPublisher().getName()) // Assuming User entity has getName() method
                 .build();
     }
     public Lesson toLesson(LessonRequest lessonRequest) {

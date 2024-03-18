@@ -36,6 +36,8 @@ public class RegisterRequest {
     @Min(value=19)
     private int age;
 */
-
+    public String getName() {
+        return firstName + " " + lastName;
+    }
 
 }

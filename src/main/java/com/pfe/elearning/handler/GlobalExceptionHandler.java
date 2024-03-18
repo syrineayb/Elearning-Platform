@@ -1,12 +1,15 @@
 package com.pfe.elearning.handler;
 
+import com.pfe.elearning.exception.DuplicateEntryException;
 import com.pfe.elearning.exception.ObjectValidationException;
 import com.pfe.elearning.exception.OperationNonPermittedException;
+import com.pfe.elearning.exception.UnauthorizedAccessException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -25,135 +28,91 @@ import java.security.SignatureException;
 public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-
-    @ExceptionHandler(ObjectValidationException.class)
+    @ExceptionHandler({
+            ObjectValidationException.class,
+            IllegalArgumentException.class,
+            NumberFormatException.class,
+            NullPointerException.class,
+            UnsupportedOperationException.class
+    })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionResponse handle(ObjectValidationException exp) {
-        return ExceptionResponse
-                .builder()
-                .errorMsg("Object not valid")
-                .errorSource(exp.getViolationSource())
-                .validationErrors(exp.getViolations())
+    public ExceptionResponse handleBadRequestException(Exception exp) {
+        String errorMessage = exp instanceof ObjectValidationException ? "Object not valid" :
+                exp instanceof IllegalArgumentException ? "Bad request. Invalid argument: " + exp.getMessage() :
+                        exp instanceof NullPointerException ? "Internal server error. Null pointer exception: " + exp.getMessage() :
+                                        exp instanceof UnsupportedOperationException ? "Not implemented. " + exp.getMessage() :
+                                                "Bad request";
+
+        return ExceptionResponse.builder()
+                .errorMsg(errorMessage)
                 .build();
     }
-    @ExceptionHandler(EntityNotFoundException.class)
+
+    @ExceptionHandler({EntityNotFoundException.class, UsernameNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse handle(EntityNotFoundException exp) {
-        return ExceptionResponse
-                .builder()
+    public ExceptionResponse handleNotFoundException(Exception exp) {
+        return ExceptionResponse.builder()
                 .errorMsg(exp.getMessage())
                 .build();
     }
 
-    @ExceptionHandler(UsernameNotFoundException.class)
+    @ExceptionHandler({BadCredentialsException.class, DisabledException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse handle(UsernameNotFoundException exp) {
-        return ExceptionResponse
-                .builder()
-                .errorMsg(exp.getMessage())
-                .build();
-    }
+    public ExceptionResponse handleAuthenticationException(Exception exp) {
+        String errorMessage = exp instanceof BadCredentialsException ? "Username and / or password is incorrect" :
+                "The user is disabled. Please contact the admin";
 
-    @ExceptionHandler(BadCredentialsException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse handle(BadCredentialsException exp) {
-        return ExceptionResponse
-                .builder()
-                .errorMsg("Username and / or password is incorrect")
+        return ExceptionResponse.builder()
+                .errorMsg(errorMessage)
                 .build();
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ExceptionResponse handle(AccessDeniedException exp) {
-        return ExceptionResponse
-                .builder()
+    public ExceptionResponse handleAccessDeniedException(AccessDeniedException exp) {
+        return ExceptionResponse.builder()
                 .errorMsg("Access denied")
                 .build();
     }
 
-    @ExceptionHandler(DisabledException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse handle() {
-        return ExceptionResponse
-                .builder()
-                .errorMsg("The user is disabled. Please contact the admin")
-                .build();
-    }
     @ExceptionHandler(OperationNonPermittedException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public ExceptionResponse handle(OperationNonPermittedException exp) {
-        return ExceptionResponse
-                .builder()
+    public ExceptionResponse handleOperationNonPermittedException(OperationNonPermittedException exp) {
+        return ExceptionResponse.builder()
                 .errorMsg(exp.getMessage())
                 .build();
     }
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionResponse handle(IllegalArgumentException exp) {
-        return ExceptionResponse
-                .builder()
-                .errorMsg("Bad request. Invalid argument: " + exp.getMessage())
+
+    @ExceptionHandler({SignatureException.class, MalformedJwtException.class})
+    public ResponseEntity<ExceptionResponse> handleJwtException(Exception exp) {
+        String errorMessage = exp instanceof SignatureException ? "JWT signature verification failed" :
+                "Invalid JWT token format";
+
+        ExceptionResponse response = ExceptionResponse.builder()
+                .errorMsg(errorMessage)
                 .build();
+        HttpStatus status = exp instanceof SignatureException ? HttpStatus.UNAUTHORIZED : HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(response);
     }
-    @ExceptionHandler(NumberFormatException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionResponse handle(NumberFormatException exp) {
-        return ExceptionResponse
-                .builder()
-                .errorMsg("Bad request. Invalid number format: " + exp.getMessage())
-                .build();
+
+    @ExceptionHandler({UnauthorizedAccessException.class, DataIntegrityViolationException.class, DuplicateEntryException.class})
+    public ResponseEntity<String> handleCustomExceptions(Exception exp) {
+        HttpStatus status = exp instanceof UnauthorizedAccessException ? HttpStatus.UNAUTHORIZED :
+                exp instanceof DataIntegrityViolationException || exp instanceof DuplicateEntryException ?
+                        HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.BAD_REQUEST;
+
+        return ResponseEntity.status(status).body(exp.getMessage());
     }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionResponse handle(Exception exp) {
+    public ExceptionResponse handleGenericException(Exception exp) {
         // log
         log.error("Error occurred: ", exp);
-        return ExceptionResponse
-                .builder()
-                .errorMsg("Oups, an error has occurred. Please contact tbe admin")
+        return ExceptionResponse.builder()
+                .errorMsg("Oups, an error has occurred. Please contact the admin")
                 .build();
     }
-    @ExceptionHandler(NullPointerException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionResponse handle(NullPointerException exp) {
-        return ExceptionResponse
-                .builder()
-                .errorMsg("Internal server error. Null pointer exception: " + exp.getMessage())
-                .build();
-    }
-    @ExceptionHandler(UnsupportedOperationException.class)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    public ExceptionResponse handle(UnsupportedOperationException exp) {
-        return ExceptionResponse
-                .builder()
-                .errorMsg("Not implemented. " + exp.getMessage())
-                .build();
-    }
-
-    @ExceptionHandler(SignatureException.class)
-    public ResponseEntity<ExceptionResponse> handleSignatureException(SignatureException ex) {
-        ExceptionResponse response = ExceptionResponse.builder()
-                .errorMsg("JWT signature verification failed")
-                .build();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-    }
-
-    @ExceptionHandler(MalformedJwtException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleMalformedJwtException(MalformedJwtException ex) {
-        // Log the exception
-        ex.printStackTrace();
-
-        // Customize the error response message if needed
-        String errorMessage = "Invalid JWT token format";
-
-        // You can return a custom response entity with the error message
-        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-    }
-
-
-
 
 }
 /*

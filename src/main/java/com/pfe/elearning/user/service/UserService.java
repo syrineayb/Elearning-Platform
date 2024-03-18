@@ -20,5 +20,6 @@ public interface UserService {
     PageResponse<UserResponse> findAllUsersByState(boolean active, int page, int size);
     void changePassword(ChangePasswordRequest request, Principal connectedUser);
 
-    User getUserByUsername(String publisherUsername);
+    User getUserByEmail(String publisherUsername);
+
 }

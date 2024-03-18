@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,8 +23,11 @@ public class LessonController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('INSTRUCTOR')")
-    public ResponseEntity<LessonResponse> createLesson(@Valid @RequestBody LessonRequest lessonRequest) {
-        LessonResponse createdLesson = lessonService.createLesson(lessonRequest);
+    public ResponseEntity<LessonResponse> createLesson(@Valid @RequestBody LessonRequest lessonRequest,
+                                                       @AuthenticationPrincipal UserDetails userDetails) {
+        String publisherUsername = userDetails.getUsername();
+
+        LessonResponse createdLesson = lessonService.createLesson(lessonRequest, publisherUsername);
         return ResponseEntity.ok(createdLesson);
     }
 
@@ -37,16 +42,22 @@ public class LessonController {
     @PreAuthorize("hasAnyRole('INSTRUCTOR')")
     public ResponseEntity<LessonResponse> updateLesson(
             @PathVariable Long lessonId,
-            @Valid @RequestBody LessonRequest lessonRequest) {
-        LessonResponse updatedLesson = lessonService.updateLesson(lessonId, lessonRequest);
+            @Valid @RequestBody LessonRequest lessonRequest,
+             @AuthenticationPrincipal UserDetails userDetails){
+        String publisherUsername = userDetails.getUsername();
+        LessonResponse updatedLesson = lessonService.updateLesson(lessonId, lessonRequest,publisherUsername);
         return ResponseEntity.ok(updatedLesson);
     }
 
     @DeleteMapping("/{lessonId}")
     @PreAuthorize("hasAnyRole('INSTRUCTOR')")
-    public ResponseEntity<Void> deleteLesson(@PathVariable Long lessonId) {
-        lessonService.deleteLesson(lessonId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteLesson(@PathVariable Long lessonId,
+             @AuthenticationPrincipal UserDetails userDetails){
+        String publisherUsername = userDetails.getUsername();
+        lessonService.deleteLesson(lessonId,publisherUsername);
+        //return ResponseEntity.noContent().build();
+        var msg = "deleted successfully";
+        return ResponseEntity.ok(msg);
     }
 
     @GetMapping

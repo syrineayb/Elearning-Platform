@@ -1,6 +1,8 @@
 package com.pfe.elearning.topic.controller;
 
 import com.pfe.elearning.common.PageResponse;
+import com.pfe.elearning.exception.TopicNotFoundException;
+import com.pfe.elearning.exception.TopicValidationException;
 import com.pfe.elearning.topic.dto.TopicRequest;
 import com.pfe.elearning.topic.dto.TopicResponse;
 import com.pfe.elearning.topic.service.TopicService;
@@ -17,8 +19,10 @@ public class TopicController {
     private final TopicService topicService;
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<TopicResponse> save(@RequestBody @Valid TopicRequest topicRequest) {
-        return ResponseEntity.ok(topicService.createTopic(topicRequest));
+    public  ResponseEntity<Void> save(@RequestBody @Valid TopicRequest topicRequest) {
+        topicService.createTopic(topicRequest);
+        return ResponseEntity.accepted().build();
+       // return ResponseEntity.ok(topicService.createTopic(topicRequest));
     }
 
     @GetMapping("/{topicId}")
@@ -49,9 +53,10 @@ public class TopicController {
         try {
             TopicResponse updatedTopic = topicService.update(topicId, topicRequest);
             return ResponseEntity.ok(updatedTopic);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Topic not found with id: " + topicId);
+        } catch (TopicNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (TopicValidationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
@@ -62,12 +67,13 @@ public class TopicController {
             topicService.deleteById(topicId);
             return ResponseEntity.ok("Topic " + topicId + " successfully deleted.");
         } else {
-            return ResponseEntity.notFound().build();
+            throw new TopicNotFoundException(topicId);
         }
     }
 
+
     @GetMapping("/search")
-    @PreAuthorize("permitAll()")
+    //@PreAuthorize("permitAll()")
     public ResponseEntity<PageResponse<TopicResponse>> findByTitleContaining(
             @RequestParam(name = "keyword") String keyword,
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,

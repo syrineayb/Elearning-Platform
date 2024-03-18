@@ -102,8 +102,9 @@ public class UserServiceImpl implements UserService {
     userRepository.save(user);
 }
     @Override
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
+    public User getUserByEmail(String username) {
+        return userRepository.findByEmail(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
     }
+
 }

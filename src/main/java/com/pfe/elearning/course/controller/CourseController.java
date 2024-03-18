@@ -22,16 +22,17 @@ public class CourseController {
 
     @PostMapping
     @PreAuthorize("hasRole('INSTRUCTOR')")
-    public ResponseEntity<Integer> createCourse(@Valid @RequestBody CourseRequest courseRequest,
+    public ResponseEntity<String> createCourse(@Valid @RequestBody CourseRequest courseRequest,
                                                 @AuthenticationPrincipal UserDetails userDetails) {
+
         // Get the publisher's username from the authenticated user's details
         String publisherUsername = userDetails.getUsername();
 
         // Create the course with the provided request and publisher's username
-        Integer courseId = courseService.createCourse(courseRequest, publisherUsername);
+        courseService.createCourse(courseRequest, publisherUsername);
 
         // Return the ID of the newly created course
-        return ResponseEntity.ok(courseId);
+         return ResponseEntity.ok("Course created successfully");
     }
     @GetMapping("/{courseId}")
     public ResponseEntity<CourseResponse> getCourseById(@PathVariable Integer courseId) {
@@ -48,11 +49,11 @@ public class CourseController {
 
     @PutMapping("/{courseId}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
-    public ResponseEntity<CourseResponse> updateCourse(
+    public ResponseEntity<String> updateCourse(
             @PathVariable Integer courseId,
             @Valid @RequestBody CourseRequest courseRequest) {
-        CourseResponse updatedCourse = courseService.updateCourse(courseId, courseRequest);
-        return ResponseEntity.ok(updatedCourse);
+        courseService.updateCourse(courseId, courseRequest);
+        return ResponseEntity.ok("Course " + courseId + " successfully updated.");
     }
     @DeleteMapping("/{courseId}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
