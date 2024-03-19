@@ -42,25 +42,9 @@ public class User implements UserDetails  {
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-
-   /* @NotBlank
-    @Column(nullable = false)
-    @Size(min = 2,max =100)
-
-    */
    private String firstname;
     private String lastname;
-    /*
-    @NotBlank
-    @Column(nullable = false)
-    @Size(min = 2,max =100)
 
- */
-/*
-    @Email(message = "Email not valid")
-    @NotBlank
-
- */
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -80,30 +64,10 @@ public class User implements UserDetails  {
   @ManyToMany(fetch = FetchType.EAGER)
   private List<Role> roles;
   public String getName() {
-      return firstname+" "+lastname;
+      return this.firstname+" "+this.lastname;
   }
 
 
-/*
-    @ManyToMany
-    @JoinTable(name = "user_domains",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "domain_id"))
-    private List<Topic> domains;
-
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(
-          name = "enrollment",
-          joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "course_id"))
-  private List<Course> enrolledCourses;
-
-  @OneToMany(mappedBy = "instructor")
-  private List<Course> taughtCourses;
-
- */
-
-    //@JoinColumn(name = "role_id")
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles
