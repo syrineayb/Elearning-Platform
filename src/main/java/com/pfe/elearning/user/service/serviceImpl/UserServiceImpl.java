@@ -1,6 +1,7 @@
 package com.pfe.elearning.user.service.serviceImpl;
 
 import com.pfe.elearning.common.PageResponse;
+import com.pfe.elearning.role.RoleType;
 import com.pfe.elearning.user.dto.ChangePasswordRequest;
 import com.pfe.elearning.user.dto.UserMapper;
 import com.pfe.elearning.user.dto.UserRequest;
@@ -34,23 +35,26 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Integer create(UserRequest request) {
+    public void create(UserRequest request) {
         validator.validate(request);
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setActive(false);
-        return userRepository.save(user).getId();
+        userRepository.save(user);
     }
 
     @Override
     public PageResponse<UserResponse> findAll(int page, int size) {
-        var pageResult = userRepository.findAll(PageRequest.of(page, size));
-        System.out.println("Total Elements: " + pageResult.getTotalElements());
-        System.out.println("Number of Elements: " + pageResult.getNumberOfElements());
-        System.out.println("Content Size: " + pageResult.getContent().size());
+        // Fetch users from the repository
+        Page<User> pageResult = userRepository.findAll(PageRequest.of(page, size));
+
+        // Filter out admin users
         List<UserResponse> userResponses = pageResult.getContent().stream()
-                .map(userMapper::toUserResponseDto)
+                .filter(user -> !user.getRoles().contains(RoleType.ROLE_ADMIN))
+                .map(userMapper::toUserResponse)
                 .collect(Collectors.toList());
+
+        // Build PageResponse with filtered users
         return PageResponse.<UserResponse>builder()
                 .content(userResponses)
                 .totalPages(pageResult.getTotalPages())
@@ -60,10 +64,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse findById(Integer id) {
         return userRepository.findById(id)
-                .map(userMapper::toUserResponseDto)
+                .map(userMapper::toUserResponse)
                 .orElseThrow(() -> new EntityNotFoundException("No user found with the ID: " + id));
     }
 
+    @Override
+    public void update(Integer userId, UserRequest request) {
+        // Retrieve the user from the database
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+
+        // Update the user's information with the new values
+        existingUser.setFirstname(request.getFirstname());
+        existingUser.setLastname(request.getLastname());
+        existingUser.setEmail(request.getEmail());
+        existingUser.setPassword(request.getPassword());
+        existingUser.setGenre(request.getGenre());
+
+        // Save the updated user back to the database
+        userRepository.save(existingUser);
+    }
     @Override
     public void delete(Integer id) {
         userRepository.deleteById(id);
@@ -74,7 +94,7 @@ public class UserServiceImpl implements UserService {
 
         List<UserResponse> userResponses = userPage.getContent()
                 .stream()
-                .map(userMapper::toUserResponseDto)
+                .map(userMapper::toUserResponse)
                 .collect(Collectors.toList());
 
         return PageResponse.<UserResponse>builder()
@@ -82,25 +102,29 @@ public class UserServiceImpl implements UserService {
                 .totalPages(userPage.getTotalPages())
                 .build();
     }
+    @Override
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
+        if (connectedUser == null) {
+            throw new IllegalArgumentException("Principal is null");
+        }
 
-    var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
 
-    // check if the current password is correct
-    if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-        throw new IllegalStateException("Wrong password");
+        // check if the current password is correct
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new IllegalStateException("Wrong password");
+        }
+        // check if the two new passwords are the same
+        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            throw new IllegalStateException("Passwords do not match");
+        }
+
+        // update the password
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        // save the new password
+        userRepository.save(user);
     }
-    // check if the two new passwords are the same
-    if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
-        throw new IllegalStateException("Password are not the same");
-    }
-
-    // update the password
-    user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-
-    // save the new password
-    userRepository.save(user);
-}
     @Override
     public User getUserByEmail(String username) {
         return userRepository.findByEmail(username)

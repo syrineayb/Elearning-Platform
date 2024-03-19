@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +30,10 @@ public class userController {
             }
     )
     @PostMapping
-    public Integer save(
-            @RequestBody UserRequest userRequest
-    ) {
-        return userService.create(userRequest);
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<?> save(@RequestBody UserRequest userRequest) {
+        userService.create(userRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -43,18 +44,37 @@ public class userController {
         return ResponseEntity.ok(userService.findAll(page, size));
     }
     @GetMapping("/{user-id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserResponse> findById(
             @PathVariable("user-id") Integer id
     ) {
         return ResponseEntity.ok(userService.findById(id));
     }
     @PatchMapping("/changePassword")
+    @PreAuthorize("hasAnyAuthority('ROLE_CANDIDATE', 'ROLE_INSTRUCTOR', 'ROLE_ADMIN')")
     public ResponseEntity<?> changePassword(
             @RequestBody ChangePasswordRequest request,
             Principal connectedUser
     ) {
         userService.changePassword(request, connectedUser);
         return ResponseEntity.ok().build();
+    }
+    @PutMapping("/{user-id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<String> updateUser(
+            @PathVariable("user-id") Integer userId,
+            @RequestBody UserRequest userRequest
+    ) {
+        userService.update(userId, userRequest);
+        return ResponseEntity.ok("User "+userId+" updated successfully");
+    }
+    @DeleteMapping("/{user-id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable("user-id") Integer userId
+    ) {
+        userService.delete(userId);
+        return ResponseEntity.noContent().build();
     }
 }
     /*@PutMapping("/changepassword/{userId}")
