@@ -1,6 +1,7 @@
 package com.pfe.elearning.user.service.serviceImpl;
 
 import com.pfe.elearning.common.PageResponse;
+import com.pfe.elearning.role.Role;
 import com.pfe.elearning.role.RoleType;
 import com.pfe.elearning.user.dto.ChangePasswordRequest;
 import com.pfe.elearning.user.dto.UserMapper;
@@ -31,9 +32,6 @@ public class UserServiceImpl implements UserService {
     private final ObjectsValidator<UserRequest> validator;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-
-
-
     @Override
     public void create(UserRequest request) {
         validator.validate(request);
@@ -45,16 +43,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResponse<UserResponse> findAll(int page, int size) {
-        // Fetch users from the repository
+        // Récupérer les utilisateurs depuis le dépôt
         Page<User> pageResult = userRepository.findAll(PageRequest.of(page, size));
 
-        // Filter out admin users
+        // Filtrer les utilisateurs pour exclure les administrateurs
         List<UserResponse> userResponses = pageResult.getContent().stream()
-                .filter(user -> !user.getRoles().contains(RoleType.ROLE_ADMIN))
+                .filter(user -> user.getRoles().stream().noneMatch(role -> role.getName().equals("ROLE_ADMIN")))
                 .map(userMapper::toUserResponse)
                 .collect(Collectors.toList());
 
-        // Build PageResponse with filtered users
+        // Construire la réponse de la page avec les utilisateurs filtrés
         return PageResponse.<UserResponse>builder()
                 .content(userResponses)
                 .totalPages(pageResult.getTotalPages())

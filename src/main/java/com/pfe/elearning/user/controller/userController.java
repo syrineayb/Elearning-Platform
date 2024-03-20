@@ -52,13 +52,14 @@ public class userController {
     }
     @PatchMapping("/changePassword")
     @PreAuthorize("hasAnyAuthority('ROLE_CANDIDATE', 'ROLE_INSTRUCTOR', 'ROLE_ADMIN')")
-    public ResponseEntity<?> changePassword(
+    public ResponseEntity<String> changePassword(
             @RequestBody ChangePasswordRequest request,
             Principal connectedUser
     ) {
         userService.changePassword(request, connectedUser);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Password changed successfully."); // Custom response message
     }
+
     @PutMapping("/{user-id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<String> updateUser(
@@ -70,7 +71,7 @@ public class userController {
     }
     @DeleteMapping("/{user-id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Void> deleteUser(
+    public ResponseEntity<String> deleteUser(
             @PathVariable("user-id") Integer userId
     ) {
         userService.delete(userId);

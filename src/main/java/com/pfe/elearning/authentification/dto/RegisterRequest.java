@@ -12,10 +12,10 @@ import java.util.List;
 public class RegisterRequest {
     @NotNull(message = "First name is mandatory")
     @NotBlank(message = "First name is mandatory")
-    private String firstName;
+    private String firstname;
     @NotNull(message = "Last name is mandatory")
     @NotBlank(message = "Last name is mandatory")
-    private String lastName;
+    private String lastname;
     @NotNull(message = "Email name is mandatory")
     @NotBlank(message = "Email name is mandatory")
     @Email(message = "Email is not valid")
@@ -24,20 +24,14 @@ public class RegisterRequest {
     @NotBlank(message = "Email name is mandatory")
     @Size(min = 4, max = 16, message = "Password should be between 4 and 16 chars")
     private String password;
-    private RoleType role;
+    //private RoleType role;
+    private String role;
 
-    //@NotNull(message = "Roles must not be Blank")
-    //private List<String> roleName;
- /*
-   // private int age;
+   /*
+   public String getFullName() {
 
-    //  @NotBlank(message = "Address must not be blank")
-   // private String address;
-    @Min(value=19)
-    private int age;
-*/
-    public String getName() {
-        return firstName + " " + lastName;
+        return getFirstname() + " " + getLastname();
     }
 
+*/
 }

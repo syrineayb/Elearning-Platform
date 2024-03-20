@@ -27,6 +27,7 @@ public class UserMapper {
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setGenre(request.getGenre());
+
         user.setRoles(getRolesFromType(request.getRole())); // Convert RoleType to Role objects
         user.setActive(true);
         user.setEnabled(true);

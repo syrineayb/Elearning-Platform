@@ -16,12 +16,19 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.security.SignatureException;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestControllerAdvice
 @Slf4j
@@ -29,7 +36,7 @@ public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler({
-            ObjectValidationException.class,
+          //  ObjectValidationException.class,
             IllegalArgumentException.class,
             NumberFormatException.class,
             NullPointerException.class,
@@ -37,7 +44,8 @@ public class GlobalExceptionHandler {
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponse handleBadRequestException(Exception exp) {
-        String errorMessage = exp instanceof ObjectValidationException ? "Object not valid" :
+        String errorMessage =
+                //exp instanceof ObjectValidationException ? "Object not valid" :
                 exp instanceof IllegalArgumentException ? "Bad request. Invalid argument: " + exp.getMessage() :
                         exp instanceof NullPointerException ? "Internal server error. Null pointer exception: " + exp.getMessage() :
                                         exp instanceof UnsupportedOperationException ? "Not implemented. " + exp.getMessage() :
@@ -113,6 +121,20 @@ public class GlobalExceptionHandler {
                 .errorMsg("Oups, an error has occurred. Please contact the admin")
                 .build();
     }
+    @ExceptionHandler(ObjectValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse handleObjectValidationException(ObjectValidationException ex) {
+        // Extract validation errors from the exception
+        Set<String> validationErrors = ex.getViolations();
+
+        // Return ExceptionResponse with errorMsg and validationErrors
+        return ExceptionResponse.builder()
+                .errorMsg("Object not valid")
+                .validationErrors(validationErrors)
+                .build();
+    }
+
+
 
 }
 /*

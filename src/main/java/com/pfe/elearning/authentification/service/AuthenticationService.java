@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,14 +49,18 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
         validator.validate(request);
 
-        RoleType requestedRole = request.getRole();
-        Role userRole = roleRepository.findByName(requestedRole.name())
-                .orElseGet(() -> roleRepository.save(Role.builder().name(requestedRole.name()).build()));
+        String requestedRoleName = request.getRole();
+        if (!isValidRole(requestedRoleName)) {
+            // Gérer le cas où le rôle demandé n'est pas valide
+            throw new IllegalArgumentException("Invalid role: " + requestedRoleName);
+        }
+        Role userRole = roleRepository.findByName(requestedRoleName)
+                .orElseGet(() -> roleRepository.save(new Role(requestedRoleName)));
 
         User user = User.builder()
                 //.firstname(request.getFirstName())
-                .firstname(request.getFirstName())
-                .lastname(request.getLastName())
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .enabled(true)
@@ -71,7 +76,7 @@ public class AuthenticationService {
         claims.put("role", user.getRoles());
         claims.put("active", user.isActive());
 
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user, claims);
         var refreshToken = jwtService.generateRefreshToken(user);
 
         saveUserToken(savedUser, jwtToken);
@@ -79,8 +84,8 @@ public class AuthenticationService {
 
         Profile profile = new Profile();
         profile.setUser(user);
-        profile.setFirstName(request.getFirstName());
-        profile.setLastName(request.getLastName());
+        profile.setFirstName(request.getFirstname());
+        profile.setLastName(request.getLastname());
         profile.setEmail(request.getEmail());
         profileRepository.save(profile);
         return buildAuthenticationResponse(savedUser, jwtToken, refreshToken);
@@ -108,14 +113,10 @@ public class AuthenticationService {
     }
 
     private boolean isValidRole(String roleName) {
-        for (RoleType roleType : RoleType.values()) {
-            if (roleType.name().equals(roleName)) {
-                return true;
-            }
-        }
-        return false;
+        return EnumUtils.isValidEnum(RoleType.class, roleName);
     }
-       public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -123,14 +124,14 @@ public class AuthenticationService {
                 )
         );
 
-           User user = userRepository.findByEmail(request.getEmail())
-                   .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        HashMap<String, Object> claims = new HashMap<>();
+        var claims = new HashMap<String, Object>();
         claims.put("role", user.getRoles());
         claims.put("active", user.isActive());
+        var jwtToken = jwtService.generateToken(user, claims);
 
-        var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);

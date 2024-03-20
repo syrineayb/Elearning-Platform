@@ -8,9 +8,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ObjectValidationException extends RuntimeException {
 
+    // Getter method for violations
+    @Getter
     private final Set<String> violations; /* validation error messages */
     private final String violationSource; /* source of the violation */
+    public Set<String> getValidationErrors() {
+        return violations;
+    }
 }
-/*
--This exception is thrown when an object fails validation.
- */
