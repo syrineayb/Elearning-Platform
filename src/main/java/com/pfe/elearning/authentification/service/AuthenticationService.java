@@ -48,12 +48,13 @@ public class AuthenticationService {
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         validator.validate(request);
-
         String requestedRoleName = request.getRole();
+        /*
         if (!isValidRole(requestedRoleName)) {
             // Gérer le cas où le rôle demandé n'est pas valide
             throw new IllegalArgumentException("Invalid role: " + requestedRoleName);
         }
+         */
         Role userRole = roleRepository.findByName(requestedRoleName)
                 .orElseGet(() -> roleRepository.save(new Role(requestedRoleName)));
 
@@ -121,9 +122,11 @@ public class AuthenticationService {
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
-                )
-        );
 
+                )
+
+        );
+        System.out.println("Authentication successful");
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 

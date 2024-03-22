@@ -29,16 +29,6 @@ public class Lesson extends BaseEntity {
     @Column(nullable = false)
     @Size(min = 2)
     private String description;
-  /*  @Column(name = "publisher_username")
-    private String publisherUsername;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "publisher_id", referencedColumnName = "id")
-    private User publisher;
-
-   */
-
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;

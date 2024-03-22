@@ -24,6 +24,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityFilterChainConfig {
     private static final String[] WHITE_LIST_URL = {
             "/api/auth/register",
+            "/api/candidates",
+            "/api/auth/**",
             "/api/topics/search",
             "/api/auth/refresh-token",
             "/v2/api-docs",

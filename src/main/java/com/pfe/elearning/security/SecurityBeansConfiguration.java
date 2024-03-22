@@ -68,4 +68,5 @@ public class SecurityBeansConfiguration {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
 }
