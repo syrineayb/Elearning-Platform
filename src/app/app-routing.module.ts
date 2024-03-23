@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {LoginComponent} from "./pages/login/login.component";
-import {RegisterComponent} from "./pages/register/register.component";
-import {HomeComponent} from "./pages/home/home.component";
-import {NotfoundComponent} from "./pages/notfound/notfound.component";
-import {authGuard} from "./modules/app-common/services/guards/auth/auth.guard";
-import {teacherGuard} from "./modules/app-common/services/guards/teacher/teacher.guard";
-import {candidateGuard} from "./modules/app-common/services/guards/candidate/candidate.guard";
-//import {CandidateProfileComponent} from "./modules/candidate/pages/candidate-profile/candidate-profile.component";
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { HomeComponent } from './pages/home/home.component';
+import { NotfoundComponent } from './pages/notfound/notfound.component';
+import { authGuard } from './modules/app-common/services/guards/auth/auth.guard';
+import { candidateGuard } from './modules/app-common/services/guards/candidate/candidate.guard';
+import {instructorGuard} from "./modules/app-common/services/guards/instructor/instructor.guard";
+import {adminGuard} from "./modules/app-common/services/guards/admin/admin.guard";
 
 const routes: Routes = [
-  { path:'', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
@@ -20,23 +20,16 @@ const routes: Routes = [
   },
   {
     path: 'instructor',
-    loadChildren: () => import('./modules/instructor/instructor.module').then(m => m.InstructorModule)
+    loadChildren: () => import('./modules/instructor/instructor.module').then(m => m.InstructorModule),
+    canActivate: [authGuard, instructorGuard]
   },
   {
     path: 'admin',
     loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule),
+    canActivate: [authGuard, adminGuard]
   },
-/*
-  {
-    path: 'candidate-profile', component: CandidateProfileComponent
-  },
-
-
- */
-
-  { path: '**', component: NotfoundComponent }
+  { path: '**', component: NotfoundComponent },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

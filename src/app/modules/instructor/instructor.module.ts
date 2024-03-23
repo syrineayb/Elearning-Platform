@@ -7,6 +7,7 @@ import {AppCommonModule} from "../app-common/app-common.module";
 import {RouterModule} from "@angular/router";
 import { InstructorProfileComponent } from './pages/instructor-profile/instructor-profile.component';
 import {CandidateModule} from "../candidate/candidate.module";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -22,8 +23,9 @@ import {CandidateModule} from "../candidate/candidate.module";
     CommonModule,
     InstructorRoutingModule,
     AppCommonModule,
-    RouterModule,
-    CandidateModule
+    FormsModule,
+
+
   ]
 })
 export class InstructorModule { }

@@ -1,0 +1,7 @@
+<!-- add-topic.component.html -->
+
+<form (submit)="addTopic()">
+  <label for="topicTitle">Topic Title:</label>
+  <input type="text" id="topicTitle" name="topicTitle" [(ngModel)]="topicTitle" required>
+  <button type="submit">Add Topic</button>
+</form>

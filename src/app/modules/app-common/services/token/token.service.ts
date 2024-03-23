@@ -117,7 +117,9 @@ export class TokenService {
   isNotCandidate(): boolean {
     return !this.isCandidate();
   }
-
+  isNotAdmin(): boolean {
+    return !this.isAdmin();
+  }
   isNotInstructor(): boolean {
     return !this.isInstructor();
   }

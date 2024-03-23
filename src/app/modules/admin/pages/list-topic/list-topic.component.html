@@ -1,0 +1,6 @@
+<ul>
+  <li *ngFor="let topic of topics">
+    {{ topic.title }}
+    <button (click)="deleteTopic(topic.id!)">Delete</button> <!-- Use non-null assertion operator (!) -->
+  </li>
+</ul>

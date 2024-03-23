@@ -26,8 +26,7 @@ import {InstructorModule} from "./modules/instructor/instructor.module";
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { LessonCardComponent } from './components/lesson-card/lesson-card.component';
 import { LessonComponent } from './components/lesson/lesson.component';
-import { ProfileNavbarComponent } from './components/profile-navbar/profile-navbar.component';
-import { ProfileSidebarComponent } from './components/profile-sidebar/profile-sidebar.component';
+import {AppCommonModule} from "./modules/app-common/app-common.module";
 
 export function createCustomTranslationLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'i18n/', '.json');
@@ -62,15 +61,14 @@ export function initializeApp(appInitializer: AppInitializerService) {
     HttpClientModule,
     FormsModule,
     CarouselModule.forRoot(),
-    RouterModule.forRoot([]),
-    CandidateModule,
-    InstructorModule,
+    AppCommonModule,
+
 
     // Add RouterModule here
 
 
   ],
-  providers: [],
+  providers: [AuthenticationService],
   exports: [
    // ProfileSidebarComponent
   ],
