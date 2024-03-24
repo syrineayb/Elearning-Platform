@@ -1,0 +1,18 @@
+<div id="sidenav">
+  <div class="user-info">
+    <!-- Display user image here -->
+    <img src="assets/img/team-4.jpg " alt="User Image">
+    <!-- Display user name here -->
+    <p>user name</p>
+  </div>
+  <div class="logo-container">
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item" *ngFor="let item of navItems">
+        <a class="sidebar-nav-link" [routerLink]="[item.routeLink]">
+          <i class="sidebar-link-icon" [class]="item.icon"></i>
+          <span class="sidebar-link-text">{{item.label}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

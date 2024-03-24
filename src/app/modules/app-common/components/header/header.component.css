@@ -1,0 +1,52 @@
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+#logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  color: #7734E7; /* Text color */
+}
+
+#logo img {
+  width: 20px;
+  height: auto;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.logo-text {
+  font-weight: bold; /* Make the text bold */
+}
+
+#menu {
+  display: flex;
+  align-items: center;
+}
+
+#menu a {
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+.notification-icon i {
+  font-size: 1.5rem;
+}
+.logout-button {
+  border: 2px solid #7734E7; /* Purple border */
+  border-radius: 20px; /* Rounded corners */
+  background: none;
+  color: #7734E7; /* Text color */
+  padding: 8px 15px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #7734E7; /* Purple background on hover */
+  color: #fff; /* White text on hover */
+}

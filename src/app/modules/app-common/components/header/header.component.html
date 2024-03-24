@@ -1,0 +1,17 @@
+<div id="header">
+  <div id="logo">
+    <img [src]="
+      sidebarActive
+      ? 'assets/img/cross-icon.svg' :
+      'assets/img/menu-icon.svg'"
+         (click)="toggleSidebar.emit()" />
+    <span class="logo-text">EduCare</span>
+  </div>
+  <div id="menu">
+    <a href="#" class="notification-icon">
+      <i class="fas fa-bell"></i> <!-- Example icon for notification -->
+    </a>
+    <a href="#"  class="logout-button">Logout</a>
+    <!--(click)="logout()"-->
+  </div>
+</div>

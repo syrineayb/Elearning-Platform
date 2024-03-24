@@ -10,7 +10,7 @@ import {RegisterRequest} from "../../models/register-request";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
+export class  AuthenticationService {
   baseUrl = environment.app.baseUrl;
   isLogged = false;
   username: string | undefined; // Initialize as undefined

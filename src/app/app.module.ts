@@ -69,6 +69,14 @@ export function initializeApp(appInitializer: AppInitializerService) {
 
   ],
   providers: [AuthenticationService],
+  /*
+    HttpClient,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpTokenInterceptor,
+      multi: true
+    }
+   */
   exports: [
    // ProfileSidebarComponent
   ],
