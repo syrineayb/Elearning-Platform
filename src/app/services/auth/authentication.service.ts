@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import {RegisterRequest} from "../../models/register-request";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class  AuthenticationService {
   isLogged = false;
   username: string | undefined; // Initialize as undefined
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) { // Inject Router here
     this.checkLoginStatus();
   }
 
@@ -33,7 +34,9 @@ export class  AuthenticationService {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     this.isLogged = false;
-    this.username = undefined; // Clear the username
+    this.username = undefined;
+    this.router.navigate(['login']);
+    // Clear the username
   }
 
   private checkLoginStatus(): void {

@@ -8,8 +8,6 @@ import { authGuard } from './modules/app-common/services/guards/auth/auth.guard'
 import { candidateGuard } from './modules/app-common/services/guards/candidate/candidate.guard';
 import {instructorGuard} from "./modules/app-common/services/guards/instructor/instructor.guard";
 import {adminGuard} from "./modules/app-common/services/guards/admin/admin.guard";
-import {AppCommonModule} from "./modules/app-common/app-common.module";
-import {ProfileComponent} from "./modules/app-common/pages/profile/profile.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

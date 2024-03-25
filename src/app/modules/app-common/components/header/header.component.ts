@@ -1,4 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Router} from "@angular/router";
+import {AuthenticationService} from "../../../../services/auth/authentication.service";
 
 @Component({
   selector: 'app-header',
@@ -8,8 +10,12 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class HeaderComponent implements  OnInit {
   @Input() sidebarActive = false;
   @Output() toggleSidebar = new EventEmitter();
-  constructor(){}
+  constructor(private router: Router,public authService: AuthenticationService) {} // Inject the Router
+
   ngOnInit(): void {
+  }
+  logout(): void {
+    this.authService.logout();
   }
 
 }

@@ -11,7 +11,7 @@
     <a href="#" class="notification-icon">
       <i class="fas fa-bell"></i> <!-- Example icon for notification -->
     </a>
-    <a href="#"  class="logout-button">Logout</a>
+    <a class="logout-button" routerLink="/login" [queryParams]="{ logout: true }">Logout</a>
     <!--(click)="logout()"-->
   </div>
 </div>

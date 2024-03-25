@@ -1,12 +1,11 @@
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-3">
-      <app-side-bar></app-side-bar> <!-- Include your sidebar component here -->
-    </div>
-    <div class="col-md-9">
-      <router-outlet></router-outlet> <!-- Your content will be rendered here based on the active route -->
+<div id="container" [ngClass]="{sidebarActive: sidebarActive}">
+  <app-side-bar [navItems]="navItems"></app-side-bar>
+  <div id="contentContainer">
+    <app-header
+      (toggleSidebar)="sidebarActive = !sidebarActive"
+      [sidebarActive] = "sidebarActive">
+    </app-header>
+    <div id="content"> <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-
