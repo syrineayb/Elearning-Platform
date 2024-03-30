@@ -1,0 +1,301 @@
+/* Reset */
+* {
+  border: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Root font size calculation */
+:root {
+  font-size: calc(16px + (24 - 16) * (100vw - 320px) / (1920 - 320));
+}
+
+/* Font and line-height for body, button, input */
+body,
+button,
+input {
+  font: 1em Hind, sans-serif;
+  line-height: 1.5em;
+}
+
+/* Body color */
+body,
+input {
+  color: #171717;
+}
+
+/* Flex display for body and search bar */
+body,
+.search-bar {
+  display: flex;
+}
+
+/* Body background and height */
+body {
+  background: #f1f1f1;
+  height: 100vh;
+}
+
+/* Search bar input, search button, and transitions */
+.search-bar input,
+.search-btn,
+.search-btn:before,
+.search-btn:after {
+  transition: all 0.25s ease-out;
+}
+
+/* Initial width and height for input and button */
+.search-bar input,
+.search-btn {
+  width: 3em;
+  height: 3em;
+}
+
+/* Cursor pointer for invalid input and search button */
+.search-bar input:invalid:not(:focus),
+.search-btn {
+  cursor: pointer;
+}
+
+/* Full width for focused input and valid input */
+.search-bar,
+.search-bar input:focus,
+.search-bar input:valid  {
+  width: 100%;
+}
+
+/* Transparent outline for focused input */
+.search-bar input:focus,
+.search-bar input:not(:focus) + .search-btn:focus {
+  outline: transparent;
+}
+
+/* Centering and max width for search bar */
+.search-bar {
+  margin: auto;
+  justify-content: center;
+  max-width: 30em;
+  padding: 10px; /* Adjust padding as needed */
+  border-radius: 5px; /* Add border radius for rounded corners */
+}
+
+/* Search input background, border radius, box shadow, padding, and initial scale and translate */
+.search-bar input {
+  background: transparent;
+  border-radius: 1.5em; /* Adjust border radius as needed */
+  box-shadow: 0 0 0 0.4em #f1f1f1 inset;
+  padding: 0.75em 1em; /* Adjust padding as needed */
+  transform: translate(0.5em, 0.5em) scale(0.5);
+  transform-origin: 100% 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Search input focused and valid styles */
+.search-bar input:focus,
+.search-bar input:valid {
+  background: #fff;
+  border-radius: 0.375em 0 0 0.375em;
+  box-shadow: 0 0 0 0.1em #d9d9d9 inset;
+  transform: scale(1);
+  border: 2px solid #452c63; /* Adjust border size and color */
+}
+
+/* Search input placeholder color */
+.search-bar input::placeholder {
+  color: #999; /* Adjust placeholder color as needed */
+}
+
+/* Search button background, border radius, padding, position, rotation, scale, and transform origin */
+.search-btn {
+  background: #e2e8f0;
+  border-radius: 0 0.75em 0.75em 0 / 0 1.5em 1.5em 0;
+  padding: 0.75em;
+  position: relative;
+  transform: translate(0.25em, 0.25em) rotate(45deg) scale(0.25, 0.125);
+  transform-origin: 0 50%;
+}
+
+/* Search button pseudo elements for decoration */
+.search-btn:before,
+.search-btn:after {
+  content: "";
+  display: block;
+  opacity: 0;
+  position: absolute;
+}
+
+/* Search button before pseudo element for border radius, box shadow, top, left, width, and height */
+.search-btn:before {
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.2em #e2e8f0 inset;
+  top: 0.75em;
+  left: 0.75em;
+  width: 1.2em;
+  height: 1.2em;
+}
+
+/* Search button after pseudo element for background, border radius, top, left, width, height, rotation, and transform origin */
+.search-btn:after {
+  background: #e2e8f0;
+  border-radius: 0 0.25em 0.25em 0;
+  top: 51%;
+  left: 51%;
+  width: 0.75em;
+  height: 0.25em;
+  transform: translate(0.2em, 0) rotate(45deg);
+  transform-origin: 0 50%;
+}
+
+/* Search button span for accessibility */
+.search-btn span {
+  display: inline-block;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+}
+/* Active state styles for focused and valid input */
+.search-bar input:focus + .search-btn,
+.search-bar input:valid + .search-btn {
+  background: #452c63;
+  border-radius: 5px;
+  transform: scale(1);
+}
+
+/* Active state styles for pseudo elements */
+.search-bar input:focus + .search-btn:before,
+.search-bar input:focus + .search-btn:after,
+.search-bar input:valid + .search-btn:before,
+.search-bar input:valid + .search-btn:after {
+  opacity: 1;
+}
+
+/* Hover and active styles for search button */
+.search-bar input:focus + .search-btn:hover,
+.search-bar input:valid + .search-btn:hover,
+.search-bar input:valid:not(:focus) + .search-btn:focus {
+  background: #4B0082;
+}
+
+/* Active state styles for search button */
+.search-bar input:focus + .search-btn:active,
+.search-bar input:valid + .search-btn:active {
+  transform: translateY(1px);
+}
+
+/* Dark mode styles */
+@media screen and (prefers-color-scheme: dark) {
+  body,
+  input {
+    color: #f1f1f1;
+  }
+  body {
+    background: #171717;
+  }
+
+  .search-bar input:focus,
+  .search-bar input:valid {
+    background: #3d3d3d;
+    box-shadow: 0 0 0 0.1em #3d3d3d inset;
+  }
+  .search-btn {
+    background: #f1f1f1;
+  }
+}
+.container {
+  margin: 0 auto; /* Center horizontally */
+  max-width: 1200px; /* Set maximum width */
+  padding: 20px; /* Add some padding to the sides for better spacing */
+}
+
+.search-container{
+  background-color:#452c63;
+}
+
+/* Section Divider Styles */
+.section-divider {
+  border: none;
+  border-top: 2px solid #808080;
+  margin-bottom: 20px;
+}
+.section-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: #452c63; /* Adjust color as needed */
+  margin-bottom: 20px; /* Adjust spacing */
+}
+/* Heading Styles */
+h2, h3 {
+  margin: 6px;
+  text-align: center;
+
+}
+.search-content h2 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #E6E6FA;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 50px; /* Adjust the top margin to position the title */
+  text-align: center; /* Center the text */
+
+}
+/* Style for the instructor section container */
+.instructor-section {
+  background-color: #f9f9f9; /* Light gray background color */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  padding: 20px; /* Padding around the content */
+}
+
+/* Style for the section title */
+.instructor-section .title {
+  color: #452c63; /* Dark purple title color */
+  font-size: 24px; /* Increase font size */
+  font-weight: bold; /* Bold font weight */
+  margin-bottom: 10px; /* Add some bottom margin */
+}
+
+/* Style for the instructor message */
+.instructor-section .tutor {
+  color: #666; /* Gray text color */
+  font-size: 16px; /* Font size */
+  line-height: 1.5; /* Line height for better readability */
+  margin-bottom: 20px; /* Add some bottom margin */
+}
+
+/* Button Styles */
+
+.become-instructor-button {
+  background: linear-gradient(to right, #7734E7, #a94cf8); /* Gradient background with mixed color */
+  color: #fff; /* White text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 12px 20px; /* Padding for the button */
+  cursor: pointer; /* Cursor style */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+  display: block; /* Make the button a block element */
+  margin: 0 auto; /* Center horizontally */
+  text-align: center; /* Center button text */
+}
+
+/* Hover effect */
+.become-instructor-button:hover {
+  transform: translateY(-3px); /* Move up slightly on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+}
+
+/* Adjusted View All Courses Button Styles */
+.view-all-courses {
+  background-color: #f39c12;
+}
+
+.view-all-courses:hover {
+  background-color: #f38a12;
+}
+
+

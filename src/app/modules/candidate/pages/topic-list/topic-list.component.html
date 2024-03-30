@@ -1,0 +1,20 @@
+<div class="container">
+<h2 class="section-title">Top Categories</h2>
+<!--  <div class="flex"> -->
+  <div *ngIf="topTopics && topTopics.content && topTopics.content.length" class="topic-container">
+  <div  *ngFor="let topic of topTopics.content" class="topic-card">
+    <img *ngIf="topic.imageUrl" [src]="topic.imageUrl" alt="{{topic.title}}" class="topic-image" >
+    <div class="topic-details">
+        <h2 class="topic-title">{{ topic.title }}</h2> <!-- Added course title -->
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="topTopics && topTopics.content && topTopics.content.length === 0" class="no-topics">
+    <p>No topics available.</p>
+  </div>
+
+  <div *ngIf="!topTopics" class="loading">
+    <p>Loading...</p>
+  </div>
+</div>

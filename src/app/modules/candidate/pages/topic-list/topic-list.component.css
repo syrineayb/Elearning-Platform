@@ -1,0 +1,74 @@
+/* Container Styles */
+.container {
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 0 20px; /* Add some padding to the sides for better spacing */
+}
+.topic-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+
+
+.section-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: #452c63; /* Adjust color as needed */
+  margin-bottom: 20px; /* Adjust spacing */
+}
+
+/* Card Styles */
+.topic-card {
+  background-color: #FFFFFF; /* Change background color to white */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: calc(33.33% - 20px);
+  margin-right: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  display: flex; /* Make cards flex containers */
+  flex-direction: column; /* Align content vertically */
+  justify-content: space-between; /* Space items evenly */
+}
+/* Card Hover Effect */
+.topic-card:hover {
+  transform: translateY(-5px);
+}
+/* Image Styles */
+.topic-card img {
+  width: 100%;
+  max-height: 200px; /* Limit image height for consistency */
+  border-radius: 10px;
+  margin-bottom: 10px; /* Reduce margin for better spacing */
+  object-fit: cover; /* Ensure images maintain aspect ratio */
+}
+.topic-details {
+  padding: 20px;
+}
+
+.topic-details h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  text-align:center;
+}
+
+.topic-title{
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 20px; /* Adjust font size as needed */
+  font-weight: bold;
+}
+
+.no-topics, .loading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+

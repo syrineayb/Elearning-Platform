@@ -18,10 +18,22 @@
   margin-right: 10px;
   cursor: pointer;
 }
-
-.logo-text {
-  font-weight: bold; /* Make the text bold */
+a{
+  text-decoration: none; /* Remove underline */
 }
+/* CSS for clickable "EduCare" text */
+.logo-text {
+  font-size: 24px; /* Adjust font size as needed */
+  font-weight: bold; /* Make the text bold */
+  color: #7734E7; /* Set text color */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.logo-text:hover {
+  color: #452c63; /* Change text color on hover */
+}
+
 
 #menu {
   display: flex;
@@ -33,8 +45,19 @@
   margin-left: 20px;
 }
 
-.notification-icon i {
+.notification-icon {
+  display: inline-block; /* Ensure the icon is displayed inline */
+  color: #333; /* Set icon color */
+  text-decoration: none; /* Remove underline */
+  padding: 8px; /* Add padding for better spacing */
+  border-radius: 50%; /* Make the icon circular */
   font-size: 1.5rem;
+
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition effect */
+}
+.notification-icon:hover {
+  background-color: #f1f1f1; /* Change background color on hover */
+  color: #7734E7; /* Change icon color on hover */
 }
 .logout-button {
   border: 2px solid #7734E7; /* Purple border */
@@ -44,6 +67,8 @@
   padding: 8px 15px; /* Adjust padding as needed */
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  padding: 8px 16px; /* Add padding for better spacing */
+
 }
 
 .logout-button:hover {

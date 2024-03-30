@@ -1,7 +1,9 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
-import {AuthRequest} from "../../models/auth-request";
-import {AuthenticationService} from "../../services/auth/authentication.service";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/auth/authentication.service';
+import { AuthRequest } from '../../models/authentication/auth-request';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {TokenService} from "../../modules/app-common/services/token/token.service";
 
 @Component({
@@ -9,49 +11,85 @@ import {TokenService} from "../../modules/app-common/services/token/token.servic
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-
+export class LoginComponent implements OnInit {
   authRequest: AuthRequest = {email: '', password: ''};
-  errorMsg: Array<string> = [];
+  errorMsg: string[] = [];
   @ViewChild('passwordInput') passwordInput!: ElementRef;
   passwordVisible: boolean = false;
+  toastShown: boolean = false;
+  loginForm!: FormGroup; // Define a FormGroup variable
 
   constructor(
     private router: Router,
     private authService: AuthenticationService,
-    private tokenService: TokenService
-  ) {
-  }
-  togglePasswordVisibility() {
-    console.log('Toggle password visibility method called');
-    this.passwordVisible = !this.passwordVisible;
-    const inputEl: HTMLInputElement = this.passwordInput.nativeElement;
-    inputEl.type = this.passwordVisible ? 'text' : 'password';
+    private toasterService: ToastrService,
+    private formBuilder: FormBuilder,
+    private tokenService: TokenService,
+    ) {
   }
 
-  login() {
-    this.errorMsg = [];
-    this.authService.login(this.authRequest)
-      .subscribe({
-        next: (res) => {
-          this.tokenService.accessToken = res.access_token as string;
-          localStorage.setItem('accessToken', res.access_token || '');
-          localStorage.setItem('username', res.username || '');
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]], // Add validators for email
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(16)]],
+    });
+  }
 
-          this.redirectConnectedUser(); // Redirect after successful login
-          console.log(res);
-        },
-        error: (err) => {
-          console.log(err);
-          if (err && err.error && err.error.validationErrors) {
-            this.errorMsg = err.error.validationErrors; // Assign error messages
-          } else {
-            this.errorMsg.push(err.errorMsg); // Fallback error message
-          }
+  get f() {
+    return this.loginForm.controls;
+  }
+
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      if (!this.toastShown) {
+        this.toasterService.error('Please fill in all the required fields with correct information.', 'Form Validation Error', {
+          positionClass: 'toast-center-center',
+          toastClass: 'custom-toast-error',
+        });
+        this.toastShown = true;
+        setTimeout(() => {
+          this.toastShown = false;
+        }, 3000);
+      }
+      return;
+    }
+
+    this.authRequest = this.loginForm.value;
+
+    this.authService.login(this.authRequest).subscribe({
+      next: (response) => {
+        if (response === null) {
+          this.toasterService.error('An unexpected error occurred. Please try again later.', 'Login Error', {
+            positionClass: 'toast-center-center',
+            toastClass: 'custom-toast-error',
+          });
+          return;
         }
-      });
-  }
 
+        console.log('Login successful:', response);
+        this.tokenService.accessToken = response.access_token as string;
+        localStorage.setItem('accessToken', response.access_token || '');
+        localStorage.setItem('username', response.username || '');
+
+        this.redirectConnectedUser();
+      },
+      error: (error) => {
+        console.error('Login error:', error);
+
+        if (error.status === 403) {
+          this.toasterService.error('Invalid email or password. Please try again.', 'Login Error', {
+            positionClass: 'toast-center-center',
+            toastClass: 'custom-toast-error',
+          });
+        } else {
+          this.toasterService.error('An unexpected error occurred. Please try again later.', 'Server Error', {
+            positionClass: 'toast-center-center',
+            toastClass: 'custom-toast-error',
+          });
+        }
+      }
+    });
+  }
 
   private redirectConnectedUser() {
     console.log('Redirecting user...');
@@ -75,10 +113,13 @@ export class LoginComponent {
     }
   }
 
-
-
-
-  register() {
-    this.router.navigate(['register']);
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+    const passwordInput = document.getElementById('password') as HTMLInputElement;
+    if (passwordInput) {
+      passwordInput.type = this.passwordVisible ? 'text' : 'password';
+    }
   }
+
+
 }

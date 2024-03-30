@@ -1,15 +1,145 @@
 .signup-container {
-  background: linear-gradient(180deg, #7734E7 0%, rgba(119, 52, 231, 0.35) 100%);
   margin-top: -50px;
-
+  padding-top: 50px;
+  margin-bottom: -50px;
+  padding-bottom: 50px;
+  background: linear-gradient(180deg, #7734E7 0%, rgba(119, 52, 231, 0.35) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.group-7 {
 
-  width: 118%;
-  height: 100%;
-  left: 531px;
-  top: 0px;
+.group-7 {
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
   background: #FFFFFF;
-  border-radius: 50px 0px 0px 50px;
-  padding: 20px;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  font-size: 16px;
+}
+
+.group-7 h1 {
+  color: #4d008a;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.group-7 label {
+  font-weight: bold;
+}
+
+.form-error {
+  color: #cc0033;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 15px;
+  margin-top: 5px;
+}
+
+.group-7 button[type="submit"] {
+  background-color: #7734E7;
+  border-color: #7734E7;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.group-7 button[type="submit"]:hover {
+  background-color: #5e2ec4;
+}
+
+.group-7 .form-check-label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+
+.group-7 .form-check-input {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.group-7 .form-check-input:checked + .form-check-label {
+  background-color: transparent;
+  color: inherit;
+}
+
+.group-7 .form-check-input:focus + .form-check-label {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(119, 52, 231, 0.2);
+}
+
+.group-7 .form-check-inline {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.group-7 .form-check-inline:last-child {
+  margin-right: 0;
+}
+
+.group-7 .c {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.group-7 .position-relative {
+  position: relative;
+}
+
+.group-7 .toggle-password {
+  z-index: 1;
+}
+
+.form-control {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100%;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+
+.input-group-append {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.input-group-append button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.toggle-password {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+.toggle-password i {
+  font-size: 1.2rem;
+  border-radius: 50%;
+  padding: 0.4rem;
+}
+
+.toggle-password i.fa-eye {
+  color: #777;
+}
+
+.toggle-password i.fa-eye-slash {
+  color: #333;
 }

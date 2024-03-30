@@ -8,7 +8,7 @@ import {TokenService} from "../../../app-common/services/token/token.service";
   styleUrls: ['./main.component.css']
 })
 export class MainComponent {
-  sidebarActive = true;
+  sidebarActive = false;
   navItems: NavItem[];
 
   constructor(private tokenService: TokenService) {

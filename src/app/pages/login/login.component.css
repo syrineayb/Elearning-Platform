@@ -1,15 +1,160 @@
-.signin-container {
-  background: linear-gradient(180deg, #7734E7 0%, rgba(119, 52, 231, 0.35) 100%);
+/* Adjust the login container */
+.login-container {
   margin-top: -50px;
-
+  padding-top: 50px;
+  margin-bottom: -50px;
+  padding-bottom: 50px;
+  background: linear-gradient(180deg, #7734E7 0%, rgba(119, 52, 231, 0.35) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Fill the entire viewport height */
 }
-.group-7 {
 
-  width: 118%;
-  height: 100%;
-  left: 531px;
-  top: 0px;
+/* Reset margin and padding for body and HTML */
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the login form */
+.group-7 {
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
   background: #FFFFFF;
-  border-radius: 50px 0px 0px 50px;
-  padding: 20px;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  font-size: 16px;
+}
+
+.group-7 h1 {
+  color: #4d008a;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+/* Style the input fields */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+/* Style the error message */
+.form-error {
+  color: #cc0033;
+  display: inline-block;
+  font-size: 12px;
+  margin-top: 5px;
+  line-height: 15px;
+}
+
+/* Adjust the spacing between form elements */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Style the labels */
+.form-label {
+  display: block;
+  font-weight: bold;
+}
+
+/* Style the inputs */
+.form-control {
+  border: 1px solid #ccc; /* Add border */
+  padding: 10px; /* Add padding */
+  width: 100%; /* Make inputs full width */
+  transition: border-color 0.3s; /* Add transition for border color */
+}
+
+/* Style the inputs on focus */
+.form-control:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: #6c63ff; /* Change border color on focus */
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2); /* Add box shadow on focus */
+}
+
+/* Add some space between label and input */
+.form-group label {
+  margin-bottom: 5px;
+}
+
+/* Style the login button */
+.btn-primary {
+  background-color: #7734E7;
+  border-color: #7734E7;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: #5e2ec4;
+}
+
+/* Style the sign-up link */
+.text-center a {
+  color: #7734E7;
+  text-decoration: none;
+}
+
+.text-center a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .group-7 {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    box-shadow: none;
+  }
+}
+
+/* Position the input group relative to the parent */
+.input-group {
+  position: relative;
+}
+
+/* Position the input group button absolutely */
+.input-group-append {
+  position: absolute;
+  right: 10px; /* Adjust as needed */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Style the toggle password button */
+.toggle-password {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Style the icon inside the toggle password button */
+.toggle-password i {
+  font-size: 1.2rem; /* Adjust the font size as needed */
+  border-radius: 50%; /* Make the icon round */
+  padding: 0.4rem; /* Adjust the padding to center the icon */
+}
+
+/* Style the icon when password is visible */
+.toggle-password i.fa-eye {
+  color: #777; /* Change the color of the icon */
+}
+
+/* Style the icon when password is hidden */
+.toggle-password i.fa-eye-slash {
+  color: #333; /* Change the color of the icon */
 }

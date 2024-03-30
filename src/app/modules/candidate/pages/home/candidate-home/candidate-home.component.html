@@ -1,0 +1,38 @@
+<div class="container">
+  <!-- Search Container with Background Image -->
+  <div class="search-container">
+    <!-- Search Content -->
+    <div class="search-content">
+      <!-- Updated Title -->
+      <h2>Explore and Enhance Your Skills</h2>
+      <!-- Search Input -->
+      <form action="" class="search-bar" (submit)="searchTopics()">
+        <input type="search" name="search" pattern=".*\S.*" required autocomplete="off" [(ngModel)]="searchKeyword">
+        <button class="search-btn" type="submit">
+          <span>Search</span>
+        </button>
+      </form>
+      <!-- Display searched topics below the input field -->
+      <div class="searched-topics" *ngIf="searchedTopics && searchedTopics.length > 0">
+        <ul class="list-unstyled">
+          <li *ngFor="let topic of searchedTopics">
+            <a [routerLink]="['/topic', topic.id]">{{ topic.title }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <h2>Quick Options</h2>
+  <hr class="section-divider">
+  <!-- Top Categories Section -->
+  <app-topic-list></app-topic-list>
+  <!-- Our Courses Section -->
+  <app-course-list></app-course-list>
+  <!-- Become an Instructor Card -->
+  <div class="box instructor-section">
+    <h2 class="section-title">Become an Instructor</h2>
+    <p class="tutor">Are you passionate about teaching? Join our platform as an instructor and share your knowledge with millions of learners worldwide!</p>
+    <button class="inline-btn become-instructor-button">Become an Instructor</button>
+  </div>
+  <app-footer></app-footer>
+</div>

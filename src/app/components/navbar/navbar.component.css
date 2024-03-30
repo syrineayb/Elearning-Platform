@@ -1,23 +1,149 @@
+/* Navbar Brand */
 .navbar-brand.educare {
-    font-family: 'Poppins', sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-    color: #7734E7;
-  }
-
-  .navbar-nav .nav-link {
-    font-family: 'Acme', sans-serif;
-    font-size: 16px;
-    color: #979797;
-    /* Adjust the space between links here */
-
-  }
-  .navbar-nav-scroll .nav-link,
-.navbar-nav-scroll .btn {
-    margin-left: 50px; /* Adjust the margin as per your preference */
-}
-.btn{
-      margin-left: 10px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #5e2ec4; /* Purple color */
 }
 
+/* Search Input */
+.form-control {
+  border: none;
+  border-bottom: 2px solid #5e2ec4; /* Purple bottom border */
+  background-color: transparent;
+  padding: 10px 0;
+  box-shadow: none;
+  transition: border-color 0.3s;
+  font-size: 0.875rem; /* Adjust font size */
+  color: #000; /* Black color */
+  width: 200px; /* Adjust the width as needed */
+}
 
+.input-group {
+  position: relative;
+  margin-bottom: 10px; /* Add margin bottom to create space */
+}
+
+.form-control::placeholder {
+  color: #ccc; /* Placeholder text color */
+}
+
+/* Login Button Style */
+.navbar-nav .btn-link {
+  color: #5e2ec4; /* Purple text color */
+  text-decoration: none;
+}
+
+/* Sign Up Button Style */
+.btn-design {
+  position: relative;
+  background-color: #5e2ec4; /* Custom background color */
+  border-color: #452c63; /* Custom border color */
+  color: #fff; /* Text color */
+  border-radius: 20px; /* Rounded corners */
+  padding: 10px 20px; /* Padding */
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+}
+
+.btn-design:hover {
+  background-color: #452c63; /* Darker background color on hover */
+  border-color: #452c63; /* Darker border color on hover */
+}
+
+.navbar-nav .btn-link:hover {
+  color: #452c63; /* Darker purple color on hover */
+}
+
+/* Animation */
+.btn-animation {
+  transition: transform 0.3s ease; /* Smooth transformation */
+}
+
+.btn-animation:hover {
+  transform: translateY(-3px); /* Move up slightly on hover */
+}
+
+/* Search Icon Hover Style */
+.btn-outline-secondary:hover {
+  background-color: #452c63;
+}
+
+/* Hide the dropdown menu by default */
+.dropdown-menu {
+  display: none;
+}
+
+/* Show the dropdown menu when the parent is hovered */
+.show .dropdown-menu {
+  display: block;
+}
+
+/* Topics Container Style */
+.topics-container {
+  margin-top: 10px;
+}
+
+/* Topic Item Style */
+.topic-item {
+  display: block;
+  padding: 5px 0;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Topic Item Hover Style */
+.topic-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style for the fetching topics message */
+.fetching-topics p {
+  margin: 0; /* Remove default margin */
+}
+
+/* Style for the searched topics */
+.searched-topics,
+.dropdown-menu {
+  top: calc(100% + 10px); /* Adjust the distance from the input */
+  left: 0;
+  width: calc(100% - 20px); /* Adjust the width of the container */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the list of searched topics */
+.searched-topics ul,
+.dropdown-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style for each searched topic item */
+.searched-topics li,
+.dropdown-menu li {
+  padding: 10px;
+}
+
+/* Style for the link of each searched topic */
+.searched-topics a,
+.dropdown-menu a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* Hover effect for searched topic items */
+.searched-topics li:hover,
+.dropdown-menu li:hover a {
+  background-color: #f0f0f0;
+}
+
+/* Add media query for responsiveness */
+@media (max-width: 992px) {
+  .input-group {
+    margin-right: 0; /* Remove margin right */
+    margin-bottom: 15px; /* Add margin bottom to create space */
+  }
+}

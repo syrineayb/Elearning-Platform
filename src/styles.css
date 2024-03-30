@@ -453,7 +453,9 @@
 body {
 
   position: relative;
-  font-family: 'Roboto', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+
 }
 
 .card {
@@ -473,5 +475,55 @@ body {
 
   .card-body {
     padding: 1rem 1.5rem;
+  }
+}
+/*
+ */
+.group-7 .alert {
+  font-size: 12px; /* Increased font size for better readability */
+  padding: 10px;
+  color: #dc3545;
+  max-width: 80%;
+  margin: 0 auto;
+  border: none; /* Remove border */
+  background-color: transparent; /* Remove background color */
+}
+
+/* ---- */
+.custom-toast-error {
+  position: fixed;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: fit-content;
+  z-index: 9999;
+  padding: 15px 10px 15px 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid;
+  border-radius:10px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  color: #D8000C;
+  background-color: #FFBABA;
+  background-image: url('https://i.imgur.com/GnyDvKN.png');
+  animation: slideUpFadeIn 0.5s ease-in-out forwards; /* Apply slide-up and fade-in animation */
+  opacity: 0; /* Start with opacity 0 */
+  transform: translateY(100%); /* Start from below the viewport */
+  /* Vendor prefixes for animation */
+  -webkit-animation: slideUpFadeIn 0.5s ease-in-out forwards;
+  -moz-animation: slideUpFadeIn 0.5s ease-in-out forwards;
+  -ms-animation: slideUpFadeIn 0.5s ease-in-out forwards;
+  -o-animation: slideUpFadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0; /* Start with opacity 0 */
+    transform: translateY(100%); /* Start from below the viewport */
+  }
+  to {
+    opacity: 1; /* Fade in to full opacity */
+    transform: translateY(0); /* Slide up to final position */
   }
 }

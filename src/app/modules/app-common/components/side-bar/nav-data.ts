@@ -14,11 +14,7 @@ export interface NavbarData {
 
 export const navbarData: NavbarData = {
   instructor: [
-    {
-      routeLink: 'dashboard',
-      icon: 'fal , fa-home',
-      label: 'instractor'
-    },
+
     {
       routeLink: 'dashboard',
       icon: 'fal , fa-home',
@@ -57,52 +53,43 @@ export const navbarData: NavbarData = {
     // Add more navigation items as needed
   ],
   candidate: [
+
     {
-      routeLink: 'dashboard',
+      routeLink: '#',
       icon: 'fal , fa-home',
-      label: 'candidate'
-    },
-    {
-      routeLink: 'dashboard',
+      label: 'Personal'
+    },  {
+      routeLink: '#',
       icon: 'fal , fa-home',
       label: 'Dashboard'
     },
     {
-      routeLink: 'courses',
+      routeLink: 'topics',
       icon: 'fal , fa-book',
-      label: 'Courses'
-    },
-    {
-      routeLink: 'assignments',
-      icon: 'fal , fa-tasks',
-      label: 'Assignments'
-    },
-    {
-      routeLink: 'grades',
-      icon: 'fal , fa-clipboard-check',
-      label: 'Grades'
-    },
-    {
-      routeLink: 'messages',
-      icon: 'fal , fa-envelope',
-      label: 'Messages'
+      label: 'Topics'
     },
     {
       routeLink: 'profile',
       icon: 'fal , fa-user',
       label: 'Profile'
-    }
+    },
+    {
+      routeLink: 'courses',
+      icon: 'fal , fa-book',
+      label: 'My Courses'
+    },
+
   ],
   admin: [
     {
-      routeLink: 'dashboard',
+      routeLink: 'home',
       icon: 'fal , fa-home',
       label: 'Admin'
     },
     {
-      routeLink: 'dashboard',
+      routeLink: 'home',
       icon: 'fal , fa-home',
-      label: 'Dashboard'
+      label: 'Home'
     },
     {
       routeLink: 'courses',

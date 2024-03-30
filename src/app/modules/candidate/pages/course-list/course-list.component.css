@@ -1,0 +1,123 @@
+/* Container Styles */
+
+.container {
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 0 20px; /* Add some padding to the sides for better spacing */
+}
+.course-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* Heading Styles */
+
+.search-content h2 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #E6E6FA;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 50px; /* Adjust the top margin to position the title */
+  text-align: center; /* Center the text */
+}
+
+.section-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: #452c63; /* Adjust color as needed */
+  margin-bottom: 20px; /* Adjust spacing */
+}
+
+/* Card Styles */
+.course-card {
+  background-color: #FFFFFF; /* Change background color to white */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: calc(33.33% - 20px);
+  margin-right: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  display: flex; /* Make cards flex containers */
+  flex-direction: column; /* Align content vertically */
+  justify-content: space-between; /* Space items evenly */
+}
+/* Card Hover Effect */
+.course-card:hover {
+  transform: translateY(-5px);
+}
+/* Image Styles */
+.course-card img {
+  width: 100%;
+  max-height: 200px; /* Limit image height for consistency */
+  border-radius: 10px;
+  margin-bottom: 10px; /* Reduce margin for better spacing */
+  object-fit: cover; /* Ensure images maintain aspect ratio */
+}
+
+
+/* Heading Styles inside Cards */
+.course-card h4 {
+  margin-top: 0;
+  margin-bottom: 10px; /* Adjust margin for better spacing */
+  font-size: 18px;
+  font-weight: bold; /* Add bold font weight for headings */
+}
+/* Description Styles */
+.course-card p {
+  flex-grow: 1; /* Allow description to grow to fill remaining space */
+  font-size: 14px; /* Reduce font size for description */
+  color: #555555; /* Adjust color for better readability */
+  line-height: 1.5; /* Increase line height for better readability */
+}
+.course-details {
+  padding: 20px;
+}
+
+.course-details h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.course-details p {
+  margin-bottom: 10px;
+}
+.course-title{
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 20px; /* Adjust font size as needed */
+  font-weight: bold;
+}
+
+
+.no-courses, .loading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+/* Button Styles */
+.view-all-courses {
+  background: linear-gradient(to right, #7734E7, #a94cf8); /* Gradient background with mixed color */
+  color: #fff; /* White text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 12px 20px; /* Padding for the button */
+  cursor: pointer; /* Cursor style */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+  display: block; /* Make the button a block element */
+  margin: 0 auto; /* Center horizontally */
+  text-align: center; /* Center button text */
+}
+
+/* Hover effect */
+.view-all-courses:hover {
+  transform: translateY(-3px); /* Move up slightly on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+}

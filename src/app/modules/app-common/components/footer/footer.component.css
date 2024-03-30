@@ -1,0 +1,39 @@
+.footer {
+    background-color: #f8f9fa; /* Light gray background */
+    padding: 50px 0; /* Padding around the footer content */
+}
+
+.footer h4 {
+    color: #333; /* Dark text color for headings */
+}
+
+.footer p {
+    color: #666; /* Medium gray text color for paragraphs */
+}
+
+.footer ul {
+    list-style: none; /* Remove default list styles */
+    padding: 0; /* Remove default padding */
+}
+
+.footer ul li {
+    margin-bottom: 10px; /* Add space between list items */
+}
+
+.footer ul li a {
+    color: #555; /* Link color */
+    text-decoration: none; /* Remove underline */
+}
+
+.footer ul li a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.footer hr {
+    border-color: #ddd; /* Light gray border color */
+}
+
+.footer .copyright {
+    color: #777; /* Light gray text color for copyright */
+    font-size: 14px; /* Small font size for copyright */
+}

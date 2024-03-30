@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { AuthRequest } from '../../models/auth-request';
-import { AuthResponse } from '../../models/auth-response';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { AuthRequest } from '../../models/authentication/auth-request';
+import { AuthResponse } from '../../models/authentication/auth-response';
 import { environment } from '../../../environments/environment';
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import {RegisterRequest} from "../../models/register-request";
+import {catchError, map, Observable, of, throwError} from 'rxjs';
+
+import {RegisterRequest} from "../../models/authentication/register-request";
 import {Router} from "@angular/router";
 
 @Injectable({
@@ -20,13 +20,22 @@ export class  AuthenticationService {
     this.checkLoginStatus();
   }
 
-  login(authRequest: AuthRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/api/auth/login`, authRequest).pipe(
-      tap(response => {
+
+
+  login(authRequest: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/api/auth/login`, authRequest).pipe(
+      map(response => {
         this.isLogged = true;
-        this.username = response.username || ''; // Assign a default value if response.username is null
+        this.username = response.username; // Assuming the server returns the username in the response
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('username', response.username);
+        return response;
       }),
-      catchError(this.handleError<AuthResponse>('login', {} as AuthResponse))
+      catchError(error => {
+        this.isLogged = false;
+        this.username = undefined;
+        return of(null);
+      })
     );
   }
 
@@ -57,19 +66,22 @@ export class  AuthenticationService {
     console.log(registerRequest.role);
     return this.http.post<any>(`${this.baseUrl}/api/auth/register`, registerRequest);
   }
-  isAuthenticated(): boolean {
+
+
+
+/*  isAuthenticated(): boolean {
     // Check if the token exists in local storage or any other authentication logic
     const token = localStorage.getItem('token');
     return !!token; // Convert token to boolean (true if token exists, false otherwise)
+  }*/
+
+
+
+  isAuthenticated(): boolean {
+    return this.isLogged;
   }
+  getUserRole(): Observable<string> {
 
- /*
-  getUsername(): Observable<string> {
-    // Make an HTTP request to fetch the username
-    return this.http.get<string>(`${this.baseUrl}/api/user/username`);
+    return this.http.get<string>(`${this.baseUrl}/api/auth/user-role`);
   }
-
-  */
-
-  //ng g s profiles/profiles
 }

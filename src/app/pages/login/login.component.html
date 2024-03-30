@@ -1,38 +1,51 @@
-<div class="signin-container">
+<div class="login-container">
   <div class="container my-5">
     <div class="row">
       <div class="col-md-6">
         <img src="assets/register/register.png" alt="Registration Image" class="img-fluid">
       </div>
-      <div class="col-md-6">
+      <div class="form-group col-md-6 ">
         <div class="group-7">
-          <h1 class="text-center">Welcome to <span style="color: blue">EDUCARE</span></h1>
-          <form class="container my-5 border border-primary" style="max-width: 50rem; border-radius: 10px; padding: 10px;" (ngSubmit)="login()">
-            <div class="mb-3">
-              <label for="formEmail" class="form-label">Email address</label>
-              <input [(ngModel)]="authRequest.email"     name="email" type="email" class="form-control" id="formEmail" placeholder="Enter Email" required>
+          <h1 class="text-center" style="color: #4d008a;">Login to <span style="color: #7734E7;">EDUCARE</span></h1>
+          <form class="container my-5 border border-primary rounded p-4" style="max-width: 50rem;" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="formEmail" class="form-label">Email Address</label>
+              <input class="form-control" formControlName="email" type="email" id="formEmail" name="email" placeholder="you@example.com">
+              <div *ngIf="f['email'].errors && (f['email'].dirty || f['email'].touched)" class="form-error">
+                <div *ngIf="f['email'].errors?.['required']">
+                  * Email is required.
+                </div>
+                <div *ngIf="f['email'].errors?.['email']">
+                  * Please enter a valid email address.
+                </div>
+              </div>
             </div>
-            <div class="mb-3 input-group">
-              <span class="input-group-text">
-                <i class="fas fa-lock"></i>
-              </span>
-              <input #passwordInput [(ngModel)]="authRequest.password"   name="password" type="password" class="form-control" id="password" placeholder="Password" required>
-              <button class="btn btn-outline-secondary" type="button" id="togglePassword"
-                        (click)="togglePasswordVisibility()">
-                <i class="fas fa-eye-slash"></i>
-              </button>
+            <div class="form-group c position-relative">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <input formControlName="password" type="password" class="form-control" id="password" placeholder="Enter 6 characters or more">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary toggle-password" type="button" id="togglePassword" (click)="togglePasswordVisibility()">
+                    <i class="{{ passwordVisible ? 'fas fa-eye' : 'fas fa-eye-slash' }}"></i>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="f['password'].errors && (f['password'].dirty || f['password'].touched)" class="form-error">
+                <div *ngIf="f['password'].errors?.['required']">
+                  * Password is required.
+                </div>
+                <div *ngIf="f['password'].errors?.['minlength']">
+                  * Password must be at least 6 characters.
+                </div>
+                <div *ngIf="f['password'].errors?.['maxlength']">
+                  * Password cannot exceed 16 characters.
+                </div>
+              </div>
             </div>
-            <div class="mb-3 form-check">
-              <input class="form-check-input" type="checkbox" id="rememberMe">
-              <label class="form-check-label" for="rememberMe">Remember me</label>
-            </div>
-            <div *ngIf="errorMsg.length" class="alert alert-danger" role="alert">
-              <p *ngFor="let msg of errorMsg">{{ msg }}</p>
-            </div>
-            <button type="submit" class="btn btn-primary container  text-center">Submit</button>
+            <button type="submit" class="btn btn-primary container text-center">Login</button>
           </form>
           <div class="text-center">
-            <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
+            <p>Don't have an account? <a routerLink="/register" style="color: #7734E7;">Sign up</a></p>
           </div>
         </div>
       </div>

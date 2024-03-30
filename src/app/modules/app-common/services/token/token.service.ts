@@ -80,7 +80,6 @@ export class TokenService {
     if (!accessToken) {
       return false;
     }
-
     // Decode the token
     const jwtHelper = new JwtHelperService();
     const decodedToken = jwtHelper.decodeToken(accessToken);
@@ -88,7 +87,7 @@ export class TokenService {
     // Check if "role" array exists in the decoded token payload
     if (decodedToken && decodedToken.role) {
       // Check if the user has the "ROLE_CANDIDATE" role
-      return decodedToken.role.some((role: any) => role.name === 'ROLE_CANDIDATE');
+      return decodedToken.role.some((role: any) => role.name === 'candidate');
     }
 
     return false;
@@ -108,7 +107,7 @@ export class TokenService {
     // Check if "role" array exists in the decoded token payload
     if (decodedToken && decodedToken.role) {
       // Check if the user has the "ROLE_INSTRUCTOR" role
-      return decodedToken.role.some((role: any) => role.name === 'ROLE_INSTRUCTOR');
+      return decodedToken.role.some((role: any) => role.name === 'instructor');
     }
 
     return false;

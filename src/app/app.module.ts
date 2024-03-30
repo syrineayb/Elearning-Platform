@@ -1,13 +1,13 @@
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { FooterComponent } from './modules/app-common/components/footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
@@ -27,6 +27,9 @@ import { CategoryCardComponent } from './components/category-card/category-card.
 import { LessonCardComponent } from './components/lesson-card/lesson-card.component';
 import { LessonComponent } from './components/lesson/lesson.component';
 import {AppCommonModule} from "./modules/app-common/app-common.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ToastrModule} from "ngx-toastr";
+
 
 export function createCustomTranslationLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'i18n/', '.json');
@@ -39,7 +42,6 @@ export function initializeApp(appInitializer: AppInitializerService) {
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    FooterComponent,
     HomeComponent,
     NavbarComponent,
     NotfoundComponent,
@@ -51,8 +53,11 @@ export function initializeApp(appInitializer: AppInitializerService) {
     CategoryCardComponent,
     LessonCardComponent,
     LessonComponent,
+
     //ProfileSidebarComponent,
     // ProfileNavbarComponent
+
+
   ],
   imports: [
 
@@ -62,9 +67,13 @@ export function initializeApp(appInitializer: AppInitializerService) {
     FormsModule,
     CarouselModule.forRoot(),
     AppCommonModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({timeOut: 3000}),
+    CandidateModule,
 
 
-    // Add RouterModule here
+    // NgbToast,
 
 
   ],
@@ -77,9 +86,9 @@ export function initializeApp(appInitializer: AppInitializerService) {
       multi: true
     }
    */
-  exports: [
-   // ProfileSidebarComponent
-  ],
+    exports: [
+        // ProfileSidebarComponent
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

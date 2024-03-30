@@ -1,0 +1,27 @@
+<div class="container">
+  <h2 class="section-title">Courses</h2>
+<div *ngIf="courses && courses.content && courses.content.length" class="course-container">
+  <div *ngFor="let course of courses.content" class="course-card">
+    <img *ngIf="course.imageUrl" [src]="course.imageUrl" alt="{{course.title}}" class="topic-image" >
+    <div class="course-details">
+      <h2 class="course-title">{{ course.title }}</h2> <!-- Added course title -->
+      <p>{{ course.description }}</p>
+      <div class="additional-info">
+        <p><strong>Duration:</strong> {{ course.duration }}</p>
+        <p><strong>Published By:</strong> {{ course.publisherName }}</p>
+        <p><strong>Created At:</strong> {{ course.createdAt | date }}</p>
+        <p><strong>Topic:</strong> {{ course.topic.title }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="courses && courses.content && courses.content.length === 0" class="no-courses">
+  <p>No courses available.</p>
+</div>
+
+<div *ngIf="!courses" class="loading">
+  <p>Loading...</p>
+</div>
+  <button class="view-all-courses">View All Courses</button>
+</div>
