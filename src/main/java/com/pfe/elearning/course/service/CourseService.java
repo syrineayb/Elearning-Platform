@@ -7,10 +7,11 @@ import com.pfe.elearning.course.dto.CourseResponse;
 import java.util.List;
 
 public interface CourseService {
-    public void createCourse(CourseRequest courseRequest, String publisherUsername);
+    void createCourse(CourseRequest courseRequest, String publisherUsername);
     CourseResponse getCourseById(Integer courseId);
     void updateCourse(Integer courseId, CourseRequest courseRequest);
     void deleteCourse(Integer courseId);
+    PageResponse<CourseResponse> findAll(int page, int size);
     List<CourseResponse> getAllCourses();
     boolean existsById(Integer id);
     PageResponse<CourseResponse> findCourseByTitleContaining(String keyword, int page, int size);

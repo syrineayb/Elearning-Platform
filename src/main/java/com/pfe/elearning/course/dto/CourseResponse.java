@@ -22,10 +22,9 @@ public class CourseResponse {
     private String description;
     private LocalDateTime createdAt;
   //  private String topicTitle;
-    private String photo;
+    private String imageUrl;
     private String duration;
     private String publisherName; // Add this field for the publisher's name
-
     private TopicResponse topic;
     private List<LessonResponse> lessons;
 

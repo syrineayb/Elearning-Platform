@@ -1,38 +1,34 @@
-// RegisterRequest.java
 package com.pfe.elearning.authentification.dto;
 
-import com.pfe.elearning.role.RoleType;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-
-import java.util.List;
 
 @Data
 public class RegisterRequest {
     @NotNull(message = "First name is mandatory")
     @NotBlank(message = "First name is mandatory")
+    @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
     private String firstname;
+
     @NotNull(message = "Last name is mandatory")
     @NotBlank(message = "Last name is mandatory")
+    @Size(min = 2, max = 50, message = "Last name must be between 2 and 50 characters")
     private String lastname;
-    @NotNull(message = "Email name is mandatory")
-    @NotBlank(message = "Email name is mandatory")
-    @Email(message = "Email is not valid")
+
+    @NotNull(message = "Email is mandatory")
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Invalid email format")
     private String email;
-    @NotNull(message = "Email name is mandatory")
-    @NotBlank(message = "Email name is mandatory")
-    @Size(min = 4, max = 16, message = "Password should be between 4 and 16 chars")
+
+    @NotNull(message = "Password is mandatory")
+    @NotBlank(message = "Password is mandatory")
+    @Size(min = 6, max = 16, message = "Password must be between 6 and 16 characters")
     private String password;
-    //private RoleType role;
-    @NotBlank(message = "role is is mandatory")
+
+    @NotNull(message = "Role is mandatory")
+    @NotBlank(message = "Role is mandatory")
     private String role;
-
-   /*
-   public String getFullName() {
-
-        return getFirstname() + " " + getLastname();
-    }
-
-*/
 }

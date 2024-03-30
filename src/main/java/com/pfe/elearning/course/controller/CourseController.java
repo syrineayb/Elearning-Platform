@@ -4,6 +4,7 @@ import com.pfe.elearning.common.PageResponse;
 import com.pfe.elearning.course.dto.CourseRequest;
 import com.pfe.elearning.course.dto.CourseResponse;
 import com.pfe.elearning.course.service.CourseService;
+import com.pfe.elearning.topic.dto.TopicResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,13 @@ public class CourseController {
         return ResponseEntity.ok(courseResponse);
     }
 
+
+    @GetMapping("/findAll")
+    public ResponseEntity<PageResponse<CourseResponse>> findAll(
+            @RequestParam(name = "page", defaultValue = "1", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "4", required = false) int size) {
+        return ResponseEntity.ok(courseService.findAll(page, size));
+    }
 
     @GetMapping
     public ResponseEntity<List<CourseResponse>> getAllCourses() {

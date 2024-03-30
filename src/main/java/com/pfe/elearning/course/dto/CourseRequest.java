@@ -13,7 +13,7 @@ public class CourseRequest {
     @NotBlank(message = "Description cannot be blank")
     private String description;
     private Integer topicId;
-    private String photo;
+    private String imageUrl;
     private String duration;
 
 }

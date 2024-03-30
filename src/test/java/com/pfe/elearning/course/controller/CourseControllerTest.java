@@ -40,7 +40,7 @@ class CourseControllerTest {
         request.setTitle("Html course");
         request.setDescription("description");
         request.setTopicId(1);
-        request.setPhoto("course.jpg");
+        request.setImageUrl("course.jpg");
         request.setDuration("3 weeks");
 
         // Simulate authenticated user (instructor)

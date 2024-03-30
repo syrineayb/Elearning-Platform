@@ -11,10 +11,11 @@ import lombok.*;
 @NoArgsConstructor
 //@Builder
 public class TopicRequest {
-   // private Long id;
-   // @NotNull(message = "100")
-    //@NotEmpty(message = "100")
     @NotBlank(message = "Title cannot be blank")
     private String title;
+    private String imageUrl;
+    public TopicRequest(String title) {
+        this.title = title;
+    }
 
 }

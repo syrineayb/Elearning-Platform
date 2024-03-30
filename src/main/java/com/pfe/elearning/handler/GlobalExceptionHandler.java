@@ -1,40 +1,61 @@
 package com.pfe.elearning.handler;
 
-import com.pfe.elearning.exception.DuplicateEntryException;
-import com.pfe.elearning.exception.ObjectValidationException;
-import com.pfe.elearning.exception.OperationNonPermittedException;
-import com.pfe.elearning.exception.UnauthorizedAccessException;
-import io.jsonwebtoken.MalformedJwtException;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.security.SignatureException;
 import java.util.HashSet;
-import java.util.Set;
 
 @RestControllerAdvice
-@Slf4j
+//@Slf4j
 public class GlobalExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionResponse> handleException(MethodArgumentNotValidException exp) {
+    var validationErrors = new HashSet<String>();
+        for(ObjectError error : exp.getBindingResult().getAllErrors()) {
+        var errorMsg = error.getDefaultMessage();
+        validationErrors.add(String.format("%s", errorMsg));
+    }
+    var errorResponse = ExceptionResponse.builder().
+            errorMsg("Object not valid")
+            .validationErrors(validationErrors)
+            .build();
 
+        return ResponseEntity
+                .badRequest()
+                .body(errorResponse);
+}
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleException(EntityNotFoundException exp) {
+        var errorResponse = ExceptionResponse.builder()
+                .errorMsg(exp.getMessage())
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.NOT_ACCEPTABLE)
+                .body(errorResponse);
+    }
+
+
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ExceptionResponse> handleException(BadCredentialsException exp) {
+        var errorResponse = ExceptionResponse.builder()
+                .errorMsg("Login and / or password is incorrect")
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(errorResponse);
+    }
+}
+
+/*
     @ExceptionHandler({
           //  ObjectValidationException.class,
             IllegalArgumentException.class,
@@ -65,7 +86,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({BadCredentialsException.class, DisabledException.class})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     public ExceptionResponse handleAuthenticationException(Exception exp) {
         String errorMessage = exp instanceof BadCredentialsException ? "Username and / or password is incorrect" :
                 "The user is disabled. Please contact the admin";
@@ -137,6 +158,8 @@ public class GlobalExceptionHandler {
 
 
 }
+
+ */
 /*
 -This class is a Spring RestControllerAdvice, which means it globally handles exceptions for all controllers in your application.
 -It contains several methods annotated with @ExceptionHandler to handle specific types of exceptions.

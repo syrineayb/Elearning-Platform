@@ -1,6 +1,7 @@
 package com.pfe.elearning.topic.controller;
 
 import com.pfe.elearning.common.PageResponse;
+import com.pfe.elearning.course.dto.CourseResponse;
 import com.pfe.elearning.exception.TopicNotFoundException;
 import com.pfe.elearning.exception.TopicValidationException;
 import com.pfe.elearning.topic.dto.TopicRequest;
@@ -12,6 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/topics")
 @RequiredArgsConstructor
@@ -37,13 +41,18 @@ public class TopicController {
     }
 
 
-    @GetMapping
-    @PreAuthorize("permitAll()")
+    @GetMapping("/findAll")
     public ResponseEntity<PageResponse<TopicResponse>> findAll(
-            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "page", defaultValue = "1", required = false) int page,
             @RequestParam(name = "size", defaultValue = "4", required = false) int size) {
         return ResponseEntity.ok(topicService.findAll(page, size));
     }
+    @GetMapping
+    public ResponseEntity<List<TopicResponse>> getAllTopics() {
+        List<TopicResponse> topics = topicService.getAllTopics();
+        return ResponseEntity.ok(topics);
+    }
+
 
     @PutMapping("/{topicId}")
     @PreAuthorize("hasAnyRole('ADMIN')")

@@ -63,7 +63,7 @@ class CourseServiceImplTest {
         CourseRequest courseRequest = new CourseRequest();
         courseRequest.setTitle("Test Course");
         courseRequest.setDescription("This is a test course");
-        courseRequest.setPhoto("test.jpg");
+        courseRequest.setImageUrl("test.jpg");
         courseRequest.setDuration("2 weeks");
         courseRequest.setTopicId(1);
 
@@ -87,7 +87,7 @@ class CourseServiceImplTest {
         invalidCourseRequest.setTitle(""); // Empty title
         invalidCourseRequest.setDescription(""); // Empty description
         invalidCourseRequest.setTopicId(null); // Null topic ID
-        invalidCourseRequest.setPhoto(null); // Null photo
+        invalidCourseRequest.setImageUrl(null); // Null photo
         invalidCourseRequest.setDuration(null); // Null duration
 
         // Mocking the userService to return a valid publisher
@@ -109,7 +109,7 @@ class CourseServiceImplTest {
         CourseRequest courseRequest = new CourseRequest();
         courseRequest.setTitle("Test Course");
         courseRequest.setDescription("This is a test course");
-        courseRequest.setPhoto("test.jpg");
+        courseRequest.setImageUrl("test.jpg");
         courseRequest.setDuration("2 weeks");
         courseRequest.setTopicId(1);
 
@@ -182,7 +182,7 @@ class CourseServiceImplTest {
         courseRequest.setTitle("New Title");
         courseRequest.setDescription("New Description");
         courseRequest.setDuration("New Duration");
-        courseRequest.setPhoto("New Photo");
+        courseRequest.setImageUrl("New Photo");
         courseRequest.setTopicId(1);
 
         Course existingCourse = new Course(); // Create a mock existing Course object
@@ -201,7 +201,7 @@ class CourseServiceImplTest {
         assertEquals(courseRequest.getTitle(), existingCourse.getTitle());
         assertEquals(courseRequest.getDescription(), existingCourse.getDescription());
         assertEquals(courseRequest.getDuration(), existingCourse.getDuration());
-        assertEquals(courseRequest.getPhoto(), existingCourse.getPhoto());
+        assertEquals(courseRequest.getImageUrl(), existingCourse.getImageUrl());
 
         // Verify that existingCourse was saved
         // This verification depends on how your save method works in the repository
@@ -217,7 +217,7 @@ class CourseServiceImplTest {
         courseRequest.setTitle("New Title");
         courseRequest.setDescription("New Description");
         courseRequest.setDuration("New Duration");
-        courseRequest.setPhoto("New Photo");
+        courseRequest.setImageUrl("New Photo");
         courseRequest.setTopicId(1);
 
         // Mock behavior of courseRepository.findById to return an empty Optional
@@ -243,7 +243,7 @@ class CourseServiceImplTest {
         courseRequest.setTitle("New Title");
         courseRequest.setDescription("New Description");
         courseRequest.setDuration("New Duration");
-        courseRequest.setPhoto("New Photo");
+        courseRequest.setImageUrl("New Photo");
         courseRequest.setTopicId(999); // Invalid topic ID
 
         Course existingCourse = new Course(); // Create a mock existing Course object

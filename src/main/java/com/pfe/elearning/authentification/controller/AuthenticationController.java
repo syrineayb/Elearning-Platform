@@ -25,7 +25,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterRequest request) {
         AuthenticationResponse response = authenticationService.register(request);
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+request.getRole());
+        System.out.println("role: "+request.getRole());
         return ResponseEntity.ok(response);
 
     }
@@ -41,4 +41,14 @@ public class AuthenticationController {
     ) throws IOException {
         authenticationService.refreshToken(request, response);
     }
+    @GetMapping("/user-role")
+    public ResponseEntity<String> getUserRole() {
+        String role = authenticationService.getUserRole();
+        if (role != null) {
+            return ResponseEntity.ok(role);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

@@ -9,6 +9,7 @@ import com.pfe.elearning.course.repository.CourseRepository;
 import com.pfe.elearning.course.dto.CourseMapper;
 import com.pfe.elearning.course.service.CourseService;
 import com.pfe.elearning.exception.ObjectValidationException;
+import com.pfe.elearning.topic.dto.TopicResponse;
 import com.pfe.elearning.topic.entity.Topic;
 import com.pfe.elearning.topic.repository.TopicRepository;
 import com.pfe.elearning.user.entity.User;
@@ -38,11 +39,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void createCourse(CourseRequest courseRequest, String publisherUsername) {
-        validateCourseRequest(courseRequest);
+        validator.validate(courseRequest);
         User publisher = getUserByEmailOrThrowException(publisherUsername);
         Course course = mapToCourse(courseRequest);
         course.setPublisher(publisher);
-        courseRepository.save(course);
+        Course savedCourse = courseRepository.save(course);
+        courseMapper.toCourseResponse(savedCourse);
+
     }
 
     private void validateCourseRequest(CourseRequest courseRequest) {
@@ -83,7 +86,7 @@ public class CourseServiceImpl implements CourseService {
         existingCourse.setTitle(courseRequest.getTitle());
         existingCourse.setDescription(courseRequest.getDescription());
         existingCourse.setDuration(courseRequest.getDuration());
-        existingCourse.setPhoto(courseRequest.getPhoto());
+        existingCourse.setImageUrl(courseRequest.getImageUrl());
 
         // Get the topic associated with the provided topicId
         Topic topic = topicRepository.findById(courseRequest.getTopicId())
@@ -106,6 +109,19 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.delete(course);
     }
 
+    @Override
+    public PageResponse<CourseResponse> findAll(int page, int size) {
+        var pageResult = this.courseRepository.findAll(PageRequest.of(page, size));
+        return PageResponse.<CourseResponse>builder()
+                .content(
+                        pageResult.getContent()
+                                .stream()
+                                .map(courseMapper::toCourseResponse)
+                                .toList()
+                )
+                .totalPages(pageResult.getTotalPages())
+                .build();
+    }
     @Override
     public List<CourseResponse> getAllCourses() {
         List<Course> courses = courseRepository.findAll();

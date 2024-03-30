@@ -9,6 +9,7 @@ public class TopicMapper {
         return TopicResponse.builder()
                 .id(topic.getId())
                 .title(topic.getTitle())
+                .imageUrl(topic.getImageUrl())
                 .createdAt(topic.getCreatedAt())
                 .updatedAt(topic.getUpdatedAt())
                 .build();
@@ -19,6 +20,7 @@ public class TopicMapper {
         }
         Topic topic = new Topic();
         topic.setTitle(topicRequest.getTitle());
+        topic.setImageUrl(topicRequest.getImageUrl());
         return topic;
     }
 }

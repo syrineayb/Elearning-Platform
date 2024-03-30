@@ -23,6 +23,8 @@ public class Topic extends BaseEntity {
     @NotNull(message = "Title cannot be null")
     @NotBlank(message = "Title cannot be blank")
     private String title;
+    private String imageUrl;
+//nb of  courses
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     private List<Course> courses = new ArrayList<>();

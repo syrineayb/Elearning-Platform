@@ -21,9 +21,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,11 +46,14 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
     private final ProfileRepository profileRepository;
-    private final ObjectsValidator<RegisterRequest> validator;
+    private final ObjectsValidator<RegisterRequest> registrationRequestValid;
+    private final ObjectsValidator<AuthenticationRequest> authenticationRequestValidator;
+    private final HttpServletRequest request;
+
     private final TokenRepository tokenRepository;
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
-        validator.validate(request);
+        registrationRequestValid.validate(request);
         String requestedRoleName = request.getRole();
         /*
         if (!isValidRole(requestedRoleName)) {
@@ -94,9 +100,9 @@ public class AuthenticationService {
 
     private AuthenticationResponse buildAuthenticationResponse(User user, String jwtToken, String refreshToken) {
         return AuthenticationResponse.builder()
-                .username(user.getUsername())
-             //   .username(user.getFirstname() + " " + user.getLastname())
-                .userId(user.getId())
+                //.username(user.getUsername())
+            .username(user.getFirstname() + " " + user.getLastname())
+         //       .userId(user.getId())
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .createdAt(user.getCreatedAt())
@@ -118,6 +124,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        authenticationRequestValidator.validate(request);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -177,5 +184,27 @@ public class AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+    // Method to get the role of the logged-in user
+    public String getUserRole() {
+        // Retrieve the currently logged-in user's email from the security context
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (userEmail != null && !userEmail.isEmpty()) {
+            // Use the userEmail to fetch the corresponding user from the repository
+            User user = userRepository.findByEmail(userEmail)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            // Get the roles associated with the user
+            List<Role> roles = user.getRoles();
+
+            // For simplicity, assuming the user has only one role
+            if (!roles.isEmpty()) {
+                return roles.get(0).getName(); // Return the name of the first role
+            }
+        }
+
+        return null; // Handle cases where user has no roles or authentication fails
     }
 }

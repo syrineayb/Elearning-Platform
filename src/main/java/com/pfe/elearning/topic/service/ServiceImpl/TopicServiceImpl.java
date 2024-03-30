@@ -2,6 +2,8 @@ package com.pfe.elearning.topic.service.ServiceImpl;
 
 import com.pfe.elearning.common.PageResponse;
 import com.pfe.elearning.course.dto.CourseRequest;
+import com.pfe.elearning.course.dto.CourseResponse;
+import com.pfe.elearning.course.entity.Course;
 import com.pfe.elearning.topic.dto.TopicMapper;
 import com.pfe.elearning.topic.dto.TopicRequest;
 import com.pfe.elearning.topic.dto.TopicResponse;
@@ -67,6 +69,14 @@ public class TopicServiceImpl implements TopicService {
                 .build();
     }
 
+    @Override
+    public List<TopicResponse> getAllTopics() {
+        List<Topic> topics = topicRepository.findAll();
+        return topics.stream()
+                .map(topicMapper::toTopicResponse)
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public void deleteById(Integer id) {
@@ -85,6 +95,7 @@ public class TopicServiceImpl implements TopicService {
                 .orElseThrow(() -> new RuntimeException("Topic not found with id: " + id));
 
         existingTopic.setTitle(topicRequest.getTitle());
+        existingTopic.setImageUrl(topicRequest.getImageUrl());
         // Update other fields as needed
         Topic updatedTopic = topicRepository.save(existingTopic);
         return topicMapper.toTopicResponse(updatedTopic);

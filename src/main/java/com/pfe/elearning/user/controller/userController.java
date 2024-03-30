@@ -77,6 +77,7 @@ public class userController {
         userService.delete(userId);
         return ResponseEntity.noContent().build();
     }
+
 }
     /*@PutMapping("/changepassword/{userId}")
     public ResponseEntity<String> updatePassword(

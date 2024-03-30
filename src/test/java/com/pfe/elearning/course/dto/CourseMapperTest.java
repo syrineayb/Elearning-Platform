@@ -34,7 +34,7 @@ class CourseMapperTest {
         CourseRequest courseRequest = new CourseRequest();
         courseRequest.setTitle("Test Course");
         courseRequest.setDescription("This is a test course");
-        courseRequest.setPhoto("test.jpg");
+        courseRequest.setImageUrl("test.jpg");
         courseRequest.setDuration("2 weeks");
         courseRequest.setTopicId(1);
 
@@ -45,7 +45,7 @@ class CourseMapperTest {
         assertNotNull(course);
         assertEquals(courseRequest.getTitle(), course.getTitle());
         assertEquals(courseRequest.getDescription(), course.getDescription());
-        assertEquals(courseRequest.getPhoto(), course.getPhoto());
+        assertEquals(courseRequest.getImageUrl(), course.getImageUrl());
         assertEquals(courseRequest.getDuration(), course.getDuration());
         assertEquals(courseRequest.getTopicId(), course.getTopic().getId());
     }
@@ -59,7 +59,7 @@ class CourseMapperTest {
         course.setDescription("This is a test course");
         course.setCreatedAt(LocalDateTime.now());
         course.setDuration("2 weeks");
-        course.setPhoto("test.jpg");
+        course.setImageUrl("test.jpg");
         User publisher = new User();
         publisher.setFirstname("John");
         publisher.setLastname("Doe");
@@ -92,7 +92,7 @@ class CourseMapperTest {
         assertEquals(course.getDescription(), courseResponse.getDescription());
         assertEquals(course.getCreatedAt(), courseResponse.getCreatedAt());
         assertEquals(course.getDuration(), courseResponse.getDuration());
-        assertEquals(course.getPhoto(), courseResponse.getPhoto());
+        assertEquals(course.getImageUrl(), courseResponse.getImageUrl());
         assertEquals(topicResponse.getId(), courseResponse.getTopic().getId());
         assertEquals(topicResponse.getTitle(), courseResponse.getTopic().getTitle());
         assertEquals(lessons.size(), courseResponse.getLessons().size());
@@ -108,7 +108,7 @@ class CourseMapperTest {
         course.setDescription("This is a test course");
         course.setCreatedAt(LocalDateTime.now());
         course.setDuration("2 weeks");
-        course.setPhoto("test.jpg");
+        course.setImageUrl("test.jpg");
         User publisher = new User();
         publisher.setFirstname("John");
         publisher.setLastname("Doe");

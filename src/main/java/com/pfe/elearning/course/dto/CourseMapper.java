@@ -25,12 +25,10 @@ public class CourseMapper {
                 .description(course.getDescription())
                 .createdAt(course.getCreatedAt())
                 .duration(course.getDuration())
-               // .publisherUsername(course.getPublisherUsername())
                 .publisherName(course.getPublisher().getName()) // Assuming User entity has getName() method
-                .photo(course.getPhoto())
+                .imageUrl(course.getImageUrl())
                 .topic(topicMapper.toTopicResponse(course.getTopic()))
                 .lessons(mapLessonResponses(course.getLessons()))
-
                 .build();
     }
 
@@ -41,7 +39,7 @@ public class CourseMapper {
         Course course = new Course();
         course.setTitle(courseRequest.getTitle());
         course.setDescription(courseRequest.getDescription());
-        course.setPhoto(courseRequest.getPhoto());
+        course.setImageUrl(courseRequest.getImageUrl());
         course.setDuration(courseRequest.getDuration());
         Topic topic = new Topic();
         topic.setId(courseRequest.getTopicId());
@@ -60,6 +58,7 @@ public class CourseMapper {
                         .description(lesson.getDescription())
                         .createdAt(lesson.getCreatedAt())
                         .courseTitle(lesson.getCourse().getTitle()) // Assuming Lesson has a reference to Course
+
                        // .publisherName(lesson.getPublisher().getName())
                         .build())
                 .collect(Collectors.toList());

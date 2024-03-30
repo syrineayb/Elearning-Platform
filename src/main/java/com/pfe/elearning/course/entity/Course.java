@@ -33,7 +33,7 @@ public class Course extends BaseEntity {
     @Size(min = 2, message = "Description must be at least 2 characters")
     private String description;
 
-    private String photo;
+    private String imageUrl;
     private String duration;
 
     @Column(name = "publisher_username")
