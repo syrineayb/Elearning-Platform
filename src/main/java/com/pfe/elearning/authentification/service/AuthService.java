@@ -1,19 +1,19 @@
 package com.pfe.elearning.authentification.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pfe.elearning.authentification.dto.AuthenticationRequest;
-import com.pfe.elearning.authentification.dto.RegisterRequest;
-import com.pfe.elearning.authentification.dto.AuthenticationResponse;
-import com.pfe.elearning.profile.entity.Profile;
+import com.pfe.elearning.authentification.dto.request.AuthRequest;
+import com.pfe.elearning.authentification.dto.request.RegisterRequest;
+import com.pfe.elearning.authentification.dto.response.AuthResponse;
 import com.pfe.elearning.profile.repository.ProfileRepository;
-import com.pfe.elearning.security.JwtService;
+import com.pfe.elearning.profile.entity.Profile;
 import com.pfe.elearning.role.Role;
+import com.pfe.elearning.role.RoleRepository;
 import com.pfe.elearning.role.RoleType;
+
 import com.pfe.elearning.token.Token;
 import com.pfe.elearning.token.TokenType;
 import com.pfe.elearning.token.repository.TokenRepository;
 import com.pfe.elearning.user.entity.User;
-import com.pfe.elearning.role.RoleRepository;
 import com.pfe.elearning.user.repository.UserRepository;
 import com.pfe.elearning.validator.ObjectsValidator;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,11 +21,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,29 +36,22 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
-
+public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
     private final RoleRepository roleRepository;
     private final ProfileRepository profileRepository;
     private final ObjectsValidator<RegisterRequest> registrationRequestValid;
-    private final ObjectsValidator<AuthenticationRequest> authenticationRequestValidator;
-    private final HttpServletRequest request;
-
+    private final ObjectsValidator<AuthRequest> authenticationRequestValidator;
     private final TokenRepository tokenRepository;
+
+
     @Transactional
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthResponse register(RegisterRequest request) {
         registrationRequestValid.validate(request);
         String requestedRoleName = request.getRole();
-        /*
-        if (!isValidRole(requestedRoleName)) {
-            // Gérer le cas où le rôle demandé n'est pas valide
-            throw new IllegalArgumentException("Invalid role: " + requestedRoleName);
-        }
-         */
         Role userRole = roleRepository.findByName(requestedRoleName)
                 .orElseGet(() -> roleRepository.save(new Role(requestedRoleName)));
 
@@ -98,16 +89,17 @@ public class AuthenticationService {
         return buildAuthenticationResponse(savedUser, jwtToken, refreshToken);
     }
 
-    private AuthenticationResponse buildAuthenticationResponse(User user, String jwtToken, String refreshToken) {
-        return AuthenticationResponse.builder()
+    private AuthResponse buildAuthenticationResponse(User user, String jwtToken, String refreshToken) {
+        return AuthResponse.builder()
                 //.username(user.getUsername())
-            .username(user.getFirstname() + " " + user.getLastname())
-         //       .userId(user.getId())
+                .username(user.getFirstname() + " " + user.getLastname())
+                .userId(user.getId())
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .createdAt(user.getCreatedAt())
                 .build();
     }
+
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
                 .user(user)
@@ -122,8 +114,7 @@ public class AuthenticationService {
     private boolean isValidRole(String roleName) {
         return EnumUtils.isValidEnum(RoleType.class, roleName);
     }
-
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthResponse authenticate(AuthRequest request) {
         authenticationRequestValidator.validate(request);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -145,8 +136,8 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
-           return buildAuthenticationResponse(user, jwtToken, refreshToken);
-       }
+        return buildAuthenticationResponse(user, jwtToken, refreshToken);
+    }
 
     private void revokeAllUserTokens(User user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
@@ -158,6 +149,7 @@ public class AuthenticationService {
             tokenRepository.saveAll(validUserTokens);
         }
     }
+
     public void refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
@@ -165,7 +157,7 @@ public class AuthenticationService {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String userEmail;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return;
         }
         refreshToken = authHeader.substring(7);
@@ -177,34 +169,36 @@ public class AuthenticationService {
                 var accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);
                 saveUserToken(user, accessToken);
-                var authResponse = AuthenticationResponse.builder()
+                var authResponse = AuthResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+
+
     }
 
     // Method to get the role of the logged-in user
-    public String getUserRole() {
-        // Retrieve the currently logged-in user's email from the security context
-        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        if (userEmail != null && !userEmail.isEmpty()) {
-            // Use the userEmail to fetch the corresponding user from the repository
-            User user = userRepository.findByEmail(userEmail)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-            // Get the roles associated with the user
-            List<Role> roles = user.getRoles();
-
-            // For simplicity, assuming the user has only one role
-            if (!roles.isEmpty()) {
-                return roles.get(0).getName(); // Return the name of the first role
-            }
-        }
-
-        return null; // Handle cases where user has no roles or authentication fails
-    }
+//    public String getUserRole() {
+//        // Retrieve the currently logged-in user's email from the security context
+//        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+//
+//        if (userEmail != null && !userEmail.isEmpty()) {
+//            // Use the userEmail to fetch the corresponding user from the repository
+//            User user = userRepository.findByEmail(userEmail)
+//                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//
+//            // Get the roles associated with the user
+//            List<Role> roles = user.getRoles();
+//
+//            // For simplicity, assuming the user has only one role
+//            if (!roles.isEmpty()) {
+//                return roles.get(0).getName(); // Return the name of the first role
+//            }
+//        }
+//
+//        return null; // Handle cases where user has no roles or authentication fails
+//    }
 }

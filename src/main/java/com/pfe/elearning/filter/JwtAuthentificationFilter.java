@@ -1,6 +1,6 @@
-package com.pfe.elearning.security;
+package com.pfe.elearning.filter;
 
-import com.pfe.elearning.security.JwtService;
+import com.pfe.elearning.authentification.service.JwtService;
 import com.pfe.elearning.token.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,10 +19,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-
 @Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+@Slf4j
+public class JwtAuthentificationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;

@@ -29,7 +29,7 @@ public class ProfileRequest {
     @Email
     private String email;
 
-    private String image;
+    //private String ProfileImage;
     private String description;
     private String phoneNumber;
     private Date dateOfBirth;
@@ -39,7 +39,10 @@ public class ProfileRequest {
     private String degreeOfEducation;
     private String certificates;
 
-
+    private String linkedInUrl;
+    private String githubUrl;
+    private String twitterUrl;
+    private String instagramUrl;
 
 
 }

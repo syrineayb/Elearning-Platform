@@ -1,5 +1,5 @@
 // AuthResponse.java
-package com.pfe.elearning.authentification.dto;
+package com.pfe.elearning.authentification.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -11,11 +11,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthenticationResponse {
-   @JsonProperty("access_token")
-   private String accessToken;
+public class AuthResponse {
+    private  int userId;
+    @JsonProperty("access_token")
+    private String accessToken;
     @JsonProperty("refresh_token")
     private String refreshToken;
-   private LocalDateTime createdAt;
-   private String username;
+    private LocalDateTime createdAt;
+    private String username;
+
 }

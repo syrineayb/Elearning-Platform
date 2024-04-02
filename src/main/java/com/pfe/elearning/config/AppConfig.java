@@ -1,5 +1,5 @@
 // AppConfig.java
-package com.pfe.elearning.security;
+package com.pfe.elearning.config;
 
 import com.pfe.elearning.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -16,23 +16,28 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.filter.CorsFilter; // Correct import
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
 @RequiredArgsConstructor
-public class SecurityBeansConfiguration {
+public class AppConfig {
+    private final UserRepository repository;
 
-    private final UserDetailsService userDetailsService;
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return email -> repository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email:: " + email));
+    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
@@ -46,6 +51,7 @@ public class SecurityBeansConfiguration {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -68,5 +74,4 @@ public class SecurityBeansConfiguration {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
-
 }

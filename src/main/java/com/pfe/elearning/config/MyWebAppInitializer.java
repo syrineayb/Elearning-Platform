@@ -1,7 +1,6 @@
 // MyWebAppInitializer.java
 package com.pfe.elearning.config;
 
-import com.pfe.elearning.security.SecurityBeansConfiguration;
 import jakarta.servlet.Filter;
 import jakarta.servlet.ServletRegistration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -13,7 +12,7 @@ public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServl
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{SecurityBeansConfiguration.class};
+        return new Class[]{SecurityConfig.class};
     }
 
     @Override
